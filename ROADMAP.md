@@ -1,69 +1,91 @@
-# Python Labs Roadmap
+# Python Automation Labs – Roadmap
 
-A progressive roadmap for mastering Python in a DevOps context. This roadmap is divided into three main phases: **Core Python**, **Automation Scripting**, and **Cloud Automation**.
+This roadmap outlines the complete journey through the **Python Automation Labs**, covering development and automation topics across **core Python**, **cloud platforms (AWS, Azure, GCP)**, and **real-world DevOps scenarios**.
 
----
-
-## 🔄 Phase 1: Core Python Development
-
-### Beginner Labs
-- LAB01: Variables and Data Types
-- LAB02: Loops and Conditions
-- LAB03: Functions and Modules
-- LAB04: File Handling
-- LAB05: Error Handling and Logging
-- LAB06: Object-Oriented Programming
-- LAB07: Virtual Environments and Packaging
-- LAB08: Unit Testing Basics
+Each phase builds your skills incrementally, from Python scripting fundamentals to automating full infrastructure and deployments in the cloud.
 
 ---
 
-## 🚀 Phase 2: Automation & Tooling
+## 📚 Phase 1: Python Fundamentals & Development
+Learn core Python development skills with an eye toward automation and scripting.
 
-### Intermediate Labs
-- LAB01: Create a Simple CLI Tool with `argparse`
-- LAB02: Automate File Downloads and Processing
-- LAB03: Parse and Process Log Files
-- LAB04: System Monitoring Script with `psutil`
-- LAB05: Scheduled Tasks with `cron` and Python
-- LAB06: Working with APIs using `requests`
-
----
-
-## 🌍 Phase 3: Cloud SDKs & Integration
-
-### AWS Labs
-- LAB01: Automate EC2 Creation with `boto3`
-- LAB02: Upload Files to S3 Programmatically
-- LAB03: Manage IAM Users and Policies
-
-### Azure Labs
-- LAB01: Create VMs with `azure-mgmt`
-- LAB02: Automate Blob Storage Operations
-
-### GCP Labs
-- LAB01: Launch Compute Instances using `google-cloud`
-- LAB02: Automate GCS Uploads and Downloads
+| Lab Group | Description                                |
+|-----------|--------------------------------------------|
+| Python    | Syntax, loops, functions, modules, I/O     |
+| Automation| Working with files, subprocesses, APIs     |
+| CLI Tools | Build CLI apps with `argparse`, logging    |
 
 ---
 
-## 🎓 Learning Objectives
+## ☁️ Phase 2: AWS Python Automation
+Start automating AWS cloud resources using `boto3` and Python.
 
-- Build fluency in Python as a core DevOps language
-- Learn to automate everyday tasks and processes
-- Gradually introduce cloud API interactions
-- Encourage clean, testable, modular code practices
+| Lab ID | Title                               |
+|--------|-------------------------------------|
+| AWS01  | EC2 Automation                      |
+| AWS02  | S3 File Upload                      |
+| AWS03  | IAM User and Policy Management      |
+| AWS04  | CloudWatch Metrics and Alerts       |
+| AWS05  | Lambda Deployment                   |
+| AWS06  | CloudFormation Stack Launch         |
+| AWS07  | DynamoDB Table Automation           |
+| AWS08  | SNS Topic and Subscription          |
+| AWS09  | SQS Queue Automation                |
+| AWS10  | EventBridge Rule Trigger            |
 
 ---
 
-## 📅 Coming Soon
+## ☁️ Phase 3: GCP Python Automation
+Use the official Google Cloud SDKs to automate resources in GCP.
 
-- Labs for Python + Terraform CDK
-- Cloud cost reporting automation
-- Event-driven pipelines using Pub/Sub or SNS/SQS
-- Python-based GitOps workflows
+| Lab ID | Title                               |
+|--------|-------------------------------------|
+| GCP01  | Compute Engine Instance Creation    |
+| GCP02  | GCS File Upload                     |
+| GCP03  | IAM Service Account Creation        |
+| GCP04  | Cloud Functions Deployment          |
+| GCP05  | Cloud Monitoring Metrics            |
+| GCP06  | Pub/Sub Topic and Subscription      |
+| GCP07  | Cloud SQL Instance Automation       |
+| GCP08  | VPC Network Creation                |
+| GCP09  | Firestore Document Operations       |
+| GCP10  | Cloud Run Deployment                |
 
 ---
 
-Stay tuned and contribute to help others automate smarter! 🚀
+## ☁️ Phase 4: Azure Python Automation
+Automate infrastructure, permissions, serverless and containers on Microsoft Azure.
+
+| Lab ID | Title                               |
+|--------|-------------------------------------|
+| AZ01   | VM Creation with Azure SDK          |
+| AZ02   | Blob Storage Upload                 |
+| AZ03   | IAM Role Assignment                 |
+| AZ04   | Azure Function Deployment           |
+| AZ05   | Monitor Metrics and Alerts          |
+| AZ06   | Service Bus Queue Creation          |
+| AZ07   | Azure SQL Database Automation       |
+| AZ08   | Virtual Network Setup               |
+| AZ09   | CosmosDB Document Management        |
+| AZ10   | Azure Container Instance Launch     |
+
+---
+
+## 🔜 Future Phases (Coming Soon)
+- Linux Scripting and System Automation
+- Docker Labs for Containerization
+- CI/CD Pipelines with GitHub Actions, Jenkins, and Azure DevOps
+- Kubernetes (EKS, GKE, AKS) Python-based automation
+- Terraform Python automation with Pulumi
+
+---
+
+## 🗺 How to Use This Roadmap
+- Follow lab folders in sequence or explore by cloud provider
+- Each lab is self-contained with instructions and scripts
+- Labs are beginner-friendly and aligned to real DevOps roles
+
+---
+
+Happy coding, clouding, and automating! 🧠💻☁️🐍
 
