@@ -1,30 +1,32 @@
-# LAB08 - Unit Testing Basics in Python (Solutions)
+# Unit Testing Basics - Solutions
 
-This document provides the reference solutions for the Unit Testing Basics lab. Please attempt to solve the lab on your own before consulting these solutions.
+This document contains complete solutions for the Unit Testing Basics lab. These solutions should be referenced only after you've attempted to complete the lab on your own.
 
 ## Solution for `main.py`
 
 ```python
 #!/usr/bin/env python3
 """
-LAB08 - Unit Testing Basics in Python
-
-This module contains functions that will be tested in test_main.py.
+This module contains functions for unit testing basics.
+It demonstrates simple functions that can be tested with unittest.
 """
 
 def add(a, b):
     """
-    Add two numbers together and return the result.
+    Add two numbers and return the result.
     
     Args:
         a: First number
         b: Second number
         
     Returns:
-        The sum of a and b
+        Sum of a and b
+    
+    Example:
+        >>> add(2, 3)
+        5
     """
     return a + b
-
 
 def is_even(number):
     """
@@ -35,13 +37,18 @@ def is_even(number):
         
     Returns:
         True if the number is even, False otherwise
+    
+    Example:
+        >>> is_even(4)
+        True
+        >>> is_even(5)
+        False
     """
     return number % 2 == 0
 
-
 def get_largest(numbers):
     """
-    Find the largest number in a list.
+    Get the largest number from a list of numbers.
     
     Args:
         numbers: A list of numbers
@@ -51,32 +58,37 @@ def get_largest(numbers):
         
     Raises:
         ValueError: If the list is empty
+    
+    Example:
+        >>> get_largest([1, 5, 3, 9, 2])
+        9
     """
     if not numbers:
         raise ValueError("Cannot find largest in an empty list")
     return max(numbers)
 
-
-def reverse_string(text):
+def reverse_string(s):
     """
     Reverse a string.
     
     Args:
-        text: The string to reverse
+        s: The string to reverse
         
     Returns:
         The reversed string
+    
+    Example:
+        >>> reverse_string("hello")
+        'olleh'
     """
-    return text[::-1]
-
+    return s[::-1]
 
 if __name__ == "__main__":
-    # This code runs only if the script is executed directly
-    print("Testing functions manually:")
-    print(f"add(2, 3) = {add(2, 3)}")
-    print(f"is_even(4) = {is_even(4)}")
-    print(f"get_largest([1, 5, 3]) = {get_largest([1, 5, 3])}")
-    print(f"reverse_string('hello') = {reverse_string('hello')}")
+    # This code will only run if the script is executed directly
+    print("Testing add function:", add(5, 3))
+    print("Testing is_even function:", is_even(6))
+    print("Testing get_largest function:", get_largest([5, 10, 3, 8]))
+    print("Testing reverse_string function:", reverse_string("Python"))
 ```
 
 ## Solution for `test_main.py`
@@ -84,141 +96,166 @@ if __name__ == "__main__":
 ```python
 #!/usr/bin/env python3
 """
-LAB08 - Unit Testing Basics in Python
-
-This module contains unit tests for the functions in main.py.
+Unit tests for the main module.
+This module demonstrates how to write unit tests using the unittest framework.
 """
 
 import unittest
 from main import add, is_even, get_largest, reverse_string
 
-
 class TestMain(unittest.TestCase):
-    """Test case for the functions in main.py."""
-    
+    """Test case for the main module functions."""
+
     def test_add(self):
         """Test the add function with various inputs."""
+        # Test positive numbers
         self.assertEqual(add(2, 3), 5)
-        self.assertEqual(add(-1, 1), 0)
+        # Test negative numbers
+        self.assertEqual(add(-1, -2), -3)
+        # Test mixed numbers
+        self.assertEqual(add(-5, 10), 5)
+        # Test zeros
         self.assertEqual(add(0, 0), 0)
-        self.assertEqual(add(-5, -7), -12)
-    
+        # Test with larger numbers
+        self.assertEqual(add(1000, 2000), 3000)
+        # Test with floating point numbers
+        self.assertAlmostEqual(add(1.5, 2.5), 4.0)
+
     def test_is_even(self):
-        """Test the is_even function with even and odd numbers."""
+        """Test the is_even function."""
+        # Test with even numbers
         self.assertTrue(is_even(2))
+        self.assertTrue(is_even(4))
         self.assertTrue(is_even(0))
-        self.assertTrue(is_even(-4))
+        self.assertTrue(is_even(-2))
+        # Test with odd numbers
+        self.assertFalse(is_even(1))
         self.assertFalse(is_even(3))
-        self.assertFalse(is_even(-1))
-    
+        self.assertFalse(is_even(-3))
+        # Test with large number
+        self.assertTrue(is_even(1000000))
+
     def test_get_largest(self):
-        """Test the get_largest function with various inputs."""
-        self.assertEqual(get_largest([1, 5, 3]), 5)
-        self.assertEqual(get_largest([-1, -5, -3]), -1)
+        """Test the get_largest function."""
+        # Test with positive numbers
+        self.assertEqual(get_largest([1, 5, 3, 9, 2]), 9)
+        # Test with negative numbers
+        self.assertEqual(get_largest([-1, -5, -3, -9, -2]), -1)
+        # Test with mixed numbers
+        self.assertEqual(get_largest([-10, 5, 0, -3]), 5)
+        # Test with a single number
         self.assertEqual(get_largest([7]), 7)
-        self.assertEqual(get_largest([1, 1, 1]), 1)
-        
+        # Test with duplicate largest values
+        self.assertEqual(get_largest([5, 9, 9, 2, 3]), 9)
+        # Test with floating point numbers
+        self.assertEqual(get_largest([1.5, 2.5, 1.9]), 2.5)
+
     def test_get_largest_empty_list(self):
         """Test that get_largest raises ValueError with an empty list."""
         with self.assertRaises(ValueError):
             get_largest([])
-    
+            
     def test_reverse_string(self):
-        """Test the reverse_string function with various inputs."""
+        """Test the reverse_string function."""
+        # Test with a regular word
         self.assertEqual(reverse_string("hello"), "olleh")
+        # Test with an empty string
         self.assertEqual(reverse_string(""), "")
-        self.assertEqual(reverse_string("a"), "a")
-        self.assertEqual(reverse_string("racecar"), "racecar")
-        self.assertEqual(reverse_string("Python"), "nohtyP")
-    
-    # Example of additional test methods using other assertions
-    
-    def test_list_contents(self):
-        """Example test demonstrating assertIn."""
-        fruits = ["apple", "banana", "orange"]
-        self.assertIn("banana", fruits)
-        self.assertNotIn("grape", fruits)
-    
-    def test_almost_equal(self):
-        """Example test demonstrating assertAlmostEqual for floating-point."""
-        self.assertAlmostEqual(0.1 + 0.2, 0.3, places=15)
+        # Test with a palindrome
+        self.assertEqual(reverse_string("radar"), "radar")
+        # Test with a sentence
+        self.assertEqual(reverse_string("Hello World"), "dlroW olleH")
+        # Test with numbers and special characters
+        self.assertEqual(reverse_string("a1b2c3!"), "!3c2b1a")
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
-```
-
-## Running the Tests
-
-To run the tests, use the following command:
-
-```bash
-python -m unittest test_main.py
-```
-
-Alternatively, you can run:
-
-```bash
-python test_main.py
 ```
 
 ## Key Learning Points
 
-1. **Basic Test Structure**:
-   - Tests are organized in classes that inherit from `unittest.TestCase`
-   - Test methods must start with `test_`
-   - Each test method tests a specific functionality
+### 1. Unit Testing Fundamentals
 
-2. **Common Assertions**:
-   - `assertEqual(a, b)`: Verify that a equals b
-   - `assertTrue(x)`: Verify that x is True
-   - `assertFalse(x)`: Verify that x is False
-   - `assertRaises(exception, callable, *args, **kwargs)`: Verify that calling the function raises the expected exception
-   - `assertIn(a, b)`: Verify that a is in b
-   - `assertAlmostEqual(a, b, places=7)`: Verify that a and b are equal to a specified precision
+#### What is Unit Testing?
+Unit testing is a software testing technique where individual components or functions of a program are tested in isolation. The purpose is to validate that each unit of software performs as expected.
 
-3. **Test Isolation**:
-   - Each test should be independent of others
-   - Tests should not depend on the order of execution
+#### Benefits of Unit Testing
+- **Early Bug Detection**: Catch issues early in the development process
+- **Documentation**: Tests serve as documentation for how the code should work
+- **Refactoring Confidence**: Makes it easier to refactor code
+- **Design Improvement**: Encourages better code organization and modular design
 
-4. **Error Testing**:
-   - It's important to test error cases, like empty lists or invalid inputs
-   - Use `assertRaises` to verify that functions raise appropriate exceptions
+### 2. Python's `unittest` Framework
 
-5. **Test Coverage**:
-   - Try to test all code paths and edge cases
-   - Test with both valid and invalid inputs
+Python's built-in `unittest` module provides a framework for organizing and running tests:
 
-## Common Issues and Troubleshooting
+- **Test Case**: A collection of individual tests represented by methods in a class that inherits from `unittest.TestCase`
+- **Test Methods**: Individual test methods must start with the word `test_`
+- **Assertions**: Special methods provided by `unittest.TestCase` to check if code behaves as expected
+- **Test Runner**: Discovers and executes tests, then displays the results
 
-1. **Tests Not Being Found**:
-   - Ensure test methods start with `test_`
-   - Make sure the test class inherits from `unittest.TestCase`
+### 3. Assertion Methods
 
-2. **Import Errors**:
-   - Ensure the module being tested is in the Python path
-   - Check for typos in import statements
+Important assertion methods used in the solution:
 
-3. **Assertion Errors**:
-   - Review the error message to understand why the test failed
-   - Check the values being tested and the expected results
+- `assertEqual(a, b)`: Verify that `a == b`
+- `assertTrue(x)`: Verify that `bool(x) is True`
+- `assertFalse(x)`: Verify that `bool(x) is False`
+- `assertRaises(exception, callable, *args, **kwargs)`: Verify that the specified exception is raised
+- `assertAlmostEqual(a, b)`: Verify that `a` and `b` are approximately equal (useful for floating point comparisons)
 
-4. **Floating-Point Comparisons**:
-   - Use `assertAlmostEqual` instead of `assertEqual` for floating-point numbers due to floating-point precision issues
-   - Example: `0.1 + 0.2` doesn't exactly equal `0.3` in floating-point arithmetic
+### 4. Test Patterns and Best Practices
 
-5. **False Positives/Negatives**:
-   - Make sure tests actually verify the functionality they're supposed to test
-   - Avoid tests that would pass even if the code is broken
+#### Demonstrated in the Solution:
+- **Test Edge Cases**: Empty lists, negative numbers, mixed types, etc.
+- **Test Expected Exceptions**: Verifying that functions raise appropriate exceptions
+- **Multiple Assertions**: Testing multiple scenarios within a single test method
+- **Descriptive Test Names**: Using clear method names that describe what is being tested
+- **Test Docstrings**: Including docstrings for test methods to further clarify intent
 
-## DevOps Application
+### 5. Running Tests
 
-In DevOps contexts, unit testing is crucial for:
+To run the tests:
+```
+python -m unittest test_main.py
+```
 
-1. **Automation Scripts**: Ensure your deployment and infrastructure scripts work correctly before execution
-2. **Configuration Management**: Validate that configuration templates produce expected results
-3. **CI/CD Pipelines**: Automatically detect issues before code reaches production
-4. **API Testing**: Verify integrations with external services work as expected
-5. **Infrastructure as Code**: Test that your infrastructure definitions produce expected resources
+Or to run with more detailed output:
+```
+python -m unittest -v test_main.py
+```
 
-Remember that testing is an investment that pays off by reducing debugging time and preventing production issues! 
+Alternatively, since we included the `unittest.main()` call in the script, you can run:
+```
+python test_main.py
+```
+
+### 6. Common Issues in Unit Testing
+
+#### Test Isolation
+Tests should be independent of each other. The outcome of one test should not affect another.
+
+#### Mocking
+For more complex code, you may need to use mocks to replace dependencies. The built-in `unittest.mock` module can help with this.
+
+#### Test Coverage
+It's important to test all aspects of your code, including edge cases and error conditions.
+
+## Best Practices
+
+1. **Write Tests First**: Consider test-driven development (TDD) where you write tests before implementation
+2. **Keep Tests Small**: Each test should check one specific thing
+3. **Test Structure**: Follow the AAA pattern (Arrange, Act, Assert)
+4. **Use Descriptive Names**: Name tests clearly to indicate what they're testing
+5. **Don't Test Implementation Details**: Test the behavior, not how it's implemented
+6. **Maintain Tests**: Update tests when code changes
+
+## Advanced Topics
+
+For more complex applications, you might explore:
+- **Fixtures**: Reusable setup code for tests
+- **Parameterized Tests**: Running the same test with different inputs
+- **Test Coverage Analysis**: Tools like `coverage.py` to measure code coverage
+- **Testing Frameworks**: Alternative frameworks like `pytest` which offer more features
+
+Remember, effective unit testing is about finding a balance - too few tests won't catch bugs, but too many can be difficult to maintain. 

@@ -47,8 +47,7 @@ python-labs/
 │   │   └── LAB10-EventBridge-Rule-Trigger/
 │   │
 │   ├── Azure/                  # Azure automation with azure-mgmt
-│   ├── GCP/                    # GCP automation with google-cloud
-│   └── Common/                 # Shared utilities and examples
+│   └── GCP/                    # GCP automation with google-cloud
 │
 └── ROADMAP.md                  # Complete learning path and progression
 ```
