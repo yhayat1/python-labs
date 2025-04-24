@@ -1,23 +1,26 @@
-# AWS LAB08 - Automate SNS Topic Creation and Subscription with Python (boto3)
+# AWS LAB08 - SNS Topic and Subscription Automation with Python (boto3)
 
-In this lab, you will create an Amazon SNS topic, subscribe an email address, and publish messages — all using Python. SNS enables distributed messaging and notification for event-driven systems.
+This lab guides you through creating a Python script to automate Amazon Simple Notification Service (SNS) operations using the AWS SDK for Python (Boto3). You'll implement various SNS operations including topic creation, subscription management, and message publishing.
 
 ---
 
 ## 🎯 Objectives
 
 By the end of this lab, you will:
-- Create an SNS topic programmatically
-- Subscribe an email address to the topic
-- Publish a test message
+- Create SNS topics programmatically using boto3
+- Subscribe email endpoints to receive notifications
+- Publish messages to SNS topics
+- List and manage topic subscriptions
+- Delete SNS topics and clean up resources
+- Understand SNS messaging fundamentals
 
 ---
 
 ## 🧰 Prerequisites
 
-- AWS account with SNS permissions
-- Python 3.8+ and `boto3` installed
-- Valid email address to receive SNS confirmation
+- AWS account with appropriate permissions
+- Python 3.8+ installed
+- AWS CLI configured with appropriate credentials
 
 ---
 
@@ -27,7 +30,8 @@ By the end of this lab, you will:
 Cloud-Automation/AWS/LAB08-SNS-Topic-and-Subscription/
 ├── sns_script.py
 ├── requirements.txt
-└── README.md
+├── README.md
+└── solution_reference.py (reference only)
 ```
 
 ---
@@ -42,78 +46,99 @@ cd Cloud-Automation/AWS/LAB08-SNS-Topic-and-Subscription/
 2. Create and activate a virtual environment:
 ```bash
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
-3. Install `boto3`:
+3. Install the required dependencies:
 ```bash
-pip install boto3
-pip freeze > requirements.txt
+pip install -r requirements.txt
+```
+
+4. Verify your AWS credentials are configured:
+```bash
+aws configure list
 ```
 
 ---
 
 ## ✍️ Your Task
 
-### 1. Create an SNS topic:
-```python
-import boto3
+The script `sns_script.py` contains skeleton functions with TODOs that you need to implement:
 
-sns = boto3.client('sns')
-
-response = sns.create_topic(Name='DevOpsAlerts')
-topic_arn = response['TopicArn']
-print("Created topic:", topic_arn)
-```
-
-### 2. Subscribe an email address:
-```python
-email = 'your-email@example.com'  # Replace with your actual email
-sns.subscribe(
-    TopicArn=topic_arn,
-    Protocol='email',
-    Endpoint=email
-)
-print("Subscription request sent. Confirm via email.")
-```
-
-### 3. Publish a message:
-```python
-sns.publish(
-    TopicArn=topic_arn,
-    Subject='Test Alert',
-    Message='This is a test message from your Python script.'
-)
-```
+1. Complete the `create_topic()` function to create an SNS topic
+2. Implement `list_topics()` to retrieve all SNS topics in your account
+3. Code the `subscribe_email()` function to add an email subscription to a topic
+4. Fill in the `publish_message()` function to send notifications to a topic
+5. Complete the `list_subscriptions()` function to view all subscriptions
+6. Implement `delete_subscription()` to remove a subscription
+7. Complete the `delete_topic()` function to clean up resources
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ SNS topic created  
-✅ Email subscription request received  
-✅ Message sent to topic and received via email  
-✅ Script runs cleanly:
+✅ Run the script to test your implementation:
 ```bash
-python sns_script.py
+python sns_script.py --create-topic DevOpsNotifications
+```
+
+✅ The script should:
+- Create an SNS topic named 'DevOpsNotifications'
+- List all topics in your account
+- Allow you to subscribe an email address:
+```bash
+python sns_script.py --topic-arn <your-topic-arn> --subscribe your.email@example.com
+```
+- Enable sending messages to subscribers:
+```bash
+python sns_script.py --topic-arn <your-topic-arn> --publish "Test message" --subject "Test Subject"
+```
+
+✅ Try listing subscriptions:
+```bash
+python sns_script.py --list-subscriptions --topic-arn <your-topic-arn>
 ```
 
 ---
 
 ## 🧹 Cleanup
-Delete the topic using:
-```python
-sns.delete_topic(TopicArn=topic_arn)
+
+When you're done with the lab, clean up resources to avoid charges:
+```bash
+python sns_script.py --delete-topic --topic-arn <your-topic-arn>
 ```
 
 ---
 
 ## 💬 What's Next?
-Next up: [AWS LAB09 - SQS Queue Automation](../LAB09-SQS-Queue-Automation/) to build reliable queues for message processing.
+
+Try [AWS LAB09 - SQS Queue Automation](../LAB09-SQS-Queue-Automation/) to learn about queue-based messaging services.
+
+---
+
+## 📚 SNS Key Concepts
+
+- **Topic**: The communication channel to which publishers send messages and subscribers receive notifications
+- **Subscription**: The endpoint (email, SMS, Lambda, etc.) that receives messages published to a topic
+- **Publish/Subscribe Model**: Pattern where publishers send messages to topics without knowledge of subscribers
+- **Fan-out Pattern**: Sending a single message to multiple recipients simultaneously
+- **Subscription Confirmation**: Email subscribers must confirm subscription before receiving messages
+
+---
+
+## 🚀 Extension Tasks
+
+If you complete the main tasks, try these additional challenges:
+1. Add SMS subscription support (requires AWS account verification for production use)
+2. Implement topic attributes management (DisplayName, DeliveryPolicy)
+3. Add support for publishing structured messages in JSON format
+4. Implement subscription filtering with filter policies
+5. Create an HTTP/HTTPS endpoint subscription with a simple web server
 
 ---
 
 ## 🙏 Acknowledgments
-SNS is a core building block for notifications and integrations. Automating it keeps your infrastructure flexible and alert-ready.
 
-Stay notified! 📬🐍
+Amazon SNS is a critical service for building event-driven architectures in AWS.
+
+Happy messaging! 📨🐍

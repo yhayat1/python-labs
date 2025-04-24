@@ -65,7 +65,8 @@ bucket_name = 'your-bucket-name'  # Replace this
 file_name = 'sample.txt'
 s3_key = 'uploads/sample.txt'
 
-s3 = boto3.client('s3')
+# Create S3 client in eu-west-1 region
+s3 = boto3.client('s3', region_name='eu-west-1')
 s3.upload_file(file_name, bucket_name, s3_key, ExtraArgs={'ACL': 'public-read'})
 
 print(f"Uploaded {file_name} to s3://{bucket_name}/{s3_key}")

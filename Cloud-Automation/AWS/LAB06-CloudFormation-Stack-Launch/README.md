@@ -10,6 +10,8 @@ By the end of this lab, you will:
 - Use Python to launch a CloudFormation stack
 - Deploy a simple EC2 instance using a template
 - Monitor stack creation status
+- Configure stack parameters through an INI file
+- Handle stack updates and deployments
 
 ---
 
@@ -24,9 +26,10 @@ By the end of this lab, you will:
 
 ```
 Cloud-Automation/AWS/LAB06-CloudFormation-Stack-Launch/
-├── launch_stack.py
-├── ec2_template.yaml       # CloudFormation template file
-├── requirements.txt
+├── launch_stack.py        # Scaffolded file for students to complete
+├── deploy_stack.py        # Reference implementation with advanced features
+├── ec2_template.yaml      # CloudFormation template file for EC2 instance
+├── config.ini             # Configuration file for stack parameters
 └── README.md
 ```
 
@@ -42,67 +45,78 @@ cd Cloud-Automation/AWS/LAB06-CloudFormation-Stack-Launch/
 2. Create and activate a virtual environment:
 ```bash
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
-3. Install `boto3`:
+3. Install required packages:
 ```bash
-pip install boto3
+pip install boto3 configparser
 pip freeze > requirements.txt
+```
+
+4. Review configuration settings:
+```bash
+# The default AWS region is set to eu-west-1 (Ireland)
+# Make sure to update subnet and VPC IDs in config.ini before deploying
 ```
 
 ---
 
 ## ✍️ Your Task
 
-### 1. Define a basic EC2 template in `ec2_template.yaml`:
-```yaml
-AWSTemplateFormatVersion: '2010-09-09'
-Resources:
-  MyInstance:
-    Type: AWS::EC2::Instance
-    Properties:
-      InstanceType: t2.micro
-      ImageId: ami-0c02fb55956c7d316  # Update if needed
-```
+### 1. Examine the CloudFormation Template
+Review the provided `ec2_template.yaml` file to understand the EC2 instance and security group configuration. Note how parameters are defined and how resources reference each other.
 
-### 2. Launch the stack with `launch_stack.py`:
-```python
-import boto3
+### 2. Review the Configuration File
+Examine `config.ini` to see how stack parameters are configured outside the code for better separation of concerns.
 
-cf = boto3.client('cloudformation')
+**Important**: Before deploying, students must update:
+- VPC ID - replace `subnet-12345678` with a valid subnet ID
+- Subnet ID - replace `vpc-12345678` with a valid VPC ID
+- KeyName - replace `my-demo-key` with an existing EC2 key pair name
 
-with open("ec2_template.yaml") as f:
-    template_body = f.read()
+### 3. Complete the `launch_stack.py` Script
+Fill in the TODOs in the `launch_stack.py` file to:
+- Read the CloudFormation template 
+- Create a CloudFormation client
+- Deploy the stack with proper parameters
+- Monitor stack creation progress
+- Implement stack deletion functionality
 
-response = cf.create_stack(
-    StackName='DevOpsEC2Stack',
-    TemplateBody=template_body,
-    Capabilities=['CAPABILITY_IAM']
-)
-
-print("Stack creation started:", response['StackId'])
-```
+### 4. Optional: Study the Reference Implementation
+For advanced concepts, examine `deploy_stack.py` which includes:
+- Comprehensive error handling
+- Stack update capabilities
+- Configuration file parsing
+- Stack output retrieval
+- Status monitoring with proper waits
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ Template created and valid YAML  
-✅ Stack launched with `boto3`  
-✅ Stack status viewable in AWS Console  
-✅ Script runs cleanly:
-```bash
-python launch_stack.py
-```
+✅ Configuration file properly set up  
+✅ Stack launched successfully with parameters from config  
+✅ Stack status monitored until completion  
+✅ Stack outputs retrieved and displayed  
+✅ Script handles errors gracefully
+✅ Stack can be deleted cleanly
 
 ---
 
 ## 🧹 Cleanup
-Delete the stack:
+Delete the stack to avoid ongoing AWS charges:
+```bash
+python launch_stack.py --delete
+```
+
+Or add deletion code to your script:
 ```python
 cf.delete_stack(StackName='DevOpsEC2Stack')
+print("Stack deletion initiated")
 ```
+
+**Important**: AWS resources like EC2 instances will continue to incur charges until explicitly deleted. Always clean up your resources after completing the lab to avoid unexpected costs.
 
 ---
 

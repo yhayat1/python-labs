@@ -61,7 +61,7 @@ pip freeze > requirements.txt
 import boto3
 
 username = 'devops-lab-user'
-iam = boto3.client('iam')
+iam = boto3.client('iam', region_name='eu-west-1')
 
 response = iam.create_user(UserName=username)
 print(f"Created user: {response['User']['UserName']}")

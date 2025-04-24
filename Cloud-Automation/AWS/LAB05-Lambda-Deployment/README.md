@@ -72,7 +72,7 @@ zip_name = "function.zip"
 with zipfile.ZipFile(zip_name, 'w') as z:
     z.write("lambda_function.py")
 
-client = boto3.client('lambda')
+client = boto3.client('lambda', region_name='eu-west-1')
 with open(zip_name, 'rb') as f:
     response = client.create_function(
         FunctionName='MyDevOpsLambda',

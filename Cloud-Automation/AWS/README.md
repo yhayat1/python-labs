@@ -8,7 +8,7 @@ Each lab is designed to progressively teach you how to use Python to automate cl
 
 ## 🚀 What You'll Learn
 
-By completing these labs, you’ll gain practical experience in:
+By completing these labs, you'll gain practical experience in:
 - Automating compute, storage, and networking services
 - Managing permissions and security policies
 - Deploying serverless applications and event-based infrastructure
@@ -61,6 +61,14 @@ Each folder includes a fully documented `README.md`, example code, and any addit
 5. **Messaging & Events**: SQS, EventBridge
 
 These labs follow a natural DevOps lifecycle and reinforce the principles of **Infrastructure as Code**, **automation**, and **cloud-native architecture**.
+
+---
+
+## 🌐 Lab Environment
+
+- **AWS Region**: These labs use `eu-west-1` (Ireland) as the default region
+- **Required Permissions**: Labs require appropriate IAM permissions
+- **Cost Warning**: Some resources created may incur AWS charges if not deleted
 
 ---
 

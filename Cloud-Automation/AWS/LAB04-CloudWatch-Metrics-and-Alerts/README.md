@@ -59,7 +59,7 @@ pip freeze > requirements.txt
 ```python
 import boto3
 
-client = boto3.client('cloudwatch')
+client = boto3.client('cloudwatch', region_name='eu-west-1')
 instance_id = 'your-ec2-instance-id'
 
 response = client.get_metric_statistics(

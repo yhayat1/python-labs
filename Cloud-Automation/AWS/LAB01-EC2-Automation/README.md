@@ -61,11 +61,11 @@ pip freeze > requirements.txt
 import boto3
 
 # Create EC2 resource
-ec2 = boto3.resource('ec2')
+ec2 = boto3.resource('ec2', region_name='eu-west-1')
 
 # Launch a t2.micro instance
 instance = ec2.create_instances(
-    ImageId='ami-0c02fb55956c7d316',  # Amazon Linux 2 AMI (update if needed)
+    ImageId='ami-0fe0b2cf0e1f25c8a',  # Amazon Linux 2023 AMI in eu-west-1
     MinCount=1,
     MaxCount=1,
     InstanceType='t2.micro',
