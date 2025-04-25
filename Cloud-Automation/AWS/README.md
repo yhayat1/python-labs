@@ -32,6 +32,113 @@ Each lab includes:
 
 ---
 
+## 🔐 Authentication Setup
+
+Before running the lab code, you need to set up authentication for the boto3 SDK. There are several methods you can use:
+
+### Method 1: AWS CLI Configuration (Recommended for Development)
+
+This method uses credentials stored by the AWS CLI:
+
+```bash
+# Install AWS CLI
+pip install awscli
+
+# Configure your credentials
+aws configure
+```
+
+When prompted, enter:
+- Your AWS Access Key ID
+- Your AWS Secret Access Key
+- Default region name (use `eu-west-1` for these labs)
+- Default output format (use `json`)
+
+The credentials are stored in `~/.aws/credentials` (Linux/Mac) or `%USERPROFILE%\.aws\credentials` (Windows).
+
+### Method 2: Environment Variables
+
+Set your credentials as environment variables:
+
+```bash
+# For Linux/Mac
+export AWS_ACCESS_KEY_ID="your_access_key"
+export AWS_SECRET_ACCESS_KEY="your_secret_key"
+export AWS_DEFAULT_REGION="eu-west-1"
+
+# For Windows PowerShell
+$env:AWS_ACCESS_KEY_ID="your_access_key"
+$env:AWS_SECRET_ACCESS_KEY="your_secret_key"
+$env:AWS_DEFAULT_REGION="eu-west-1"
+
+# For Windows Command Prompt
+set AWS_ACCESS_KEY_ID=your_access_key
+set AWS_SECRET_ACCESS_KEY=your_secret_key
+set AWS_DEFAULT_REGION=eu-west-1
+```
+
+### Method 3: Boto3 Session with Profile
+
+If you have multiple AWS profiles configured, you can specify which one to use:
+
+```python
+import boto3
+
+# Create a session using a specific profile
+session = boto3.Session(profile_name='my-profile')
+
+# Use the session to create clients/resources
+s3 = session.client('s3')
+ec2 = session.resource('ec2')
+```
+
+### Method 4: IAM Roles (for EC2 or Lambda)
+
+If you're running your code on AWS services like EC2 or Lambda, use IAM roles instead of hardcoded credentials:
+
+1. Create an IAM role with the necessary permissions
+2. Attach the role to your EC2 instance or Lambda function
+3. Boto3 will automatically use the role's credentials
+
+### Method 5: Assume Role (for Cross-Account Access)
+
+To access resources in another AWS account:
+
+```python
+import boto3
+
+# Create an STS client
+sts_client = boto3.client('sts')
+
+# Assume a role in another account
+assumed_role = sts_client.assume_role(
+    RoleArn="arn:aws:iam::ACCOUNT_ID:role/ROLE_NAME",
+    RoleSessionName="AssumeRoleSession"
+)
+
+# Extract the temporary credentials
+credentials = assumed_role['Credentials']
+
+# Create a client using the temporary credentials
+s3_client = boto3.client(
+    's3',
+    aws_access_key_id=credentials['AccessKeyId'],
+    aws_secret_access_key=credentials['SecretAccessKey'],
+    aws_session_token=credentials['SessionToken']
+)
+```
+
+### Security Best Practices
+
+1. **Never hardcode credentials** in your Python scripts
+2. Use IAM roles when possible instead of access keys
+3. Grant the minimum permissions necessary for your task
+4. Rotate access keys regularly
+5. Use temporary credentials when possible
+6. For production, consider using AWS Secrets Manager or Parameter Store
+
+---
+
 ## 📁 Lab Structure
 
 ```bash
