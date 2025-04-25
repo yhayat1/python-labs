@@ -1,24 +1,28 @@
 # GCP LAB04 - Automate Cloud Functions Deployment with Python
 
-In this lab, you’ll learn how to deploy a Google Cloud Function using Python and the `google-cloud-functions` API. Serverless functions enable you to run event-driven code without managing infrastructure.
+In this lab, you'll learn how to programmatically deploy Google Cloud Functions using Python. You'll work with both the Google Cloud Functions API and the gcloud CLI to implement serverless functions that respond to HTTP triggers.
 
 ---
 
 ## 🎯 Objectives
 
 By the end of this lab, you will:
-- Package and deploy a cloud function using Python
-- Configure runtime, trigger, and entry point
-- Test deployment by calling the function
+- Package and deploy a Cloud Function using Python
+- Configure function runtime, trigger settings, and entry points
+- Compare API-based deployment with gcloud CLI deployment
+- Test and validate your deployed function
+- Understand basic serverless concepts in GCP
 
 ---
 
 ## 🧰 Prerequisites
 
-- GCP project and billing enabled
-- Cloud Functions API enabled
-- Python 3.8+ installed
-- Service account with Cloud Functions Developer role
+- Google Cloud account with an active project
+- Cloud Functions API enabled in your project
+- Service account with Cloud Functions Developer role (roles/cloudfunctions.developer)
+- Service account key file (JSON) downloaded to your local machine
+- Python 3.8 or higher installed
+- gcloud CLI installed (for CLI deployment option)
 
 ---
 
@@ -26,83 +30,142 @@ By the end of this lab, you will:
 
 ```
 Cloud-Automation/GCP/LAB04-Cloud-Functions-Deployment/
-├── main.py                   # Function source
-├── deploy_function.py        # Deployment script
-├── requirements.txt
-└── README.md
+├── main.py                    # Cloud Function source code
+├── requirements-function.txt  # Dependencies for the Cloud Function
+├── deploy_function.py         # Deployment script (with TODOs)
+├── requirements.txt           # Dependencies for the deployment script
+├── solutions.md               # Solutions to the TODOs
+└── README.md                  # This file
 ```
 
 ---
 
 ## 🚀 Getting Started
 
-1. Set credentials:
+### 1. Set up authentication
+
+Before running the script, you need to authenticate with Google Cloud:
+
 ```bash
+# Set the environment variable to point to your service account key file
 export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your-service-account.json"
 ```
 
-2. Navigate to the lab folder:
+### 2. Navigate to the lab folder
+
 ```bash
 cd Cloud-Automation/GCP/LAB04-Cloud-Functions-Deployment/
 ```
 
-3. Create virtual environment and install tools:
+### 3. Create and activate a virtual environment
+
 ```bash
+# Create a virtual environment
 python -m venv .venv
+
+# Activate the virtual environment
+# On Windows:
+.venv\Scripts\activate
+# On macOS/Linux:
 source .venv/bin/activate
-pip install google-cloud-functions google-api-python-client google-auth
-pip freeze > requirements.txt
+```
+
+### 4. Install dependencies
+
+```bash
+pip install -r requirements.txt
 ```
 
 ---
 
 ## ✍️ Your Task
 
-### 1. Write a basic Cloud Function (`main.py`):
-```python
-def hello_world(request):
-    return "Hello from your Cloud Function!"
-```
+In this lab, you will:
 
-### 2. Deploy with `gcloud` (triggered by HTTP):
+1. Review the sample Cloud Function (`main.py`) that returns a JSON greeting
+2. Complete the TODOs in the `deploy_function.py` script to:
+   - Create a deployment package (zip file) of the function
+   - Upload the package to Google Cloud Storage
+   - Configure and deploy the function using the Cloud Functions API
+   - Set up public access for the function (if requested)
+
+The script already contains:
+- Argument parsing for various deployment options
+- A gcloud CLI deployment method
+- Error handling and validation
+- Helper functions for each step of the process
+
+Your job is to fill in the missing implementation details marked with `TODO` comments.
+
+### Running the script
+
+Once you've completed the TODOs, run your script to deploy using the API:
+
 ```bash
-gcloud functions deploy hello_world \
-  --runtime python310 \
-  --trigger-http \
-  --allow-unauthenticated \
-  --entry-point hello_world
+python deploy_function.py --project=your-gcp-project-id
 ```
 
-### 3. Optional: Automate the same deployment via Python using `subprocess` or GCF API.
+Or use the gcloud CLI for deployment:
+
+```bash
+python deploy_function.py --project=your-gcp-project-id --use_gcloud
+```
+
+Make the function publicly accessible:
+
+```bash
+python deploy_function.py --project=your-gcp-project-id --allow_unauthenticated
+```
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ Cloud Function deployed using Python/gcloud  
-✅ Accessible via HTTP trigger  
-✅ Script runs cleanly:
+Ensure your implementation:
+
+✅ Successfully packages the Cloud Function source code  
+✅ Uploads the package to Google Cloud Storage (if using API)  
+✅ Deploys the function with proper configuration  
+✅ Makes the function publicly accessible (if requested)  
+✅ Shows the HTTP trigger URL for testing  
+
+You can test your deployed function with:
+
 ```bash
-python deploy_function.py  # if automated
+curl https://REGION-PROJECT_ID.cloudfunctions.net/FUNCTION_NAME
 ```
+
+Or with a parameter:
+
+```bash
+curl "https://REGION-PROJECT_ID.cloudfunctions.net/FUNCTION_NAME?name=YourName"
+```
+
+The function should return a JSON response with a greeting and timestamp.
 
 ---
 
 ## 🧹 Cleanup
-Delete the function after testing:
+
+To avoid incurring charges for the deployed function, delete it when you're done:
+
 ```bash
-gcloud functions delete hello_world
+gcloud functions delete hello-world --region=us-central1 --project=your-gcp-project-id
 ```
+
+The script will output the exact cleanup command at the end of a successful deployment.
 
 ---
 
 ## 💬 What's Next?
-Next: [GCP LAB05 - Cloud Monitoring Metrics](../LAB05-Cloud-Monitoring-Metrics/) to monitor resources and retrieve metrics.
+
+After completing this lab, proceed to [GCP LAB05 - Cloud Monitoring Metrics](../LAB05-Cloud-Monitoring-Metrics/) to learn how to monitor resources and retrieve metrics in GCP.
 
 ---
 
 ## 🙏 Acknowledgments
-Cloud Functions let you deploy microservices with speed and simplicity. Automate the cloud with fewer servers, more code!
 
-Happy triggering! ☁️⚡🐍
+Cloud Functions is a key serverless computing service in GCP that enables you to run code without provisioning or managing servers. Mastering programmatic deployment is an essential skill for DevOps engineers and cloud automation specialists.
+
+Happy cloud automating! ☁️⚡🐍
 
