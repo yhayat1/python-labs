@@ -55,6 +55,7 @@ pip freeze > requirements.txt
 ## ✍️ Your Task
 
 ### Complete all TODOs in [launch_ec2.py](./launch_ec2.py)
+### Solutions can be found in [solutions.md](./solutions.md)
 
 ---
 
