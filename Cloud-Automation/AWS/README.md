@@ -87,9 +87,9 @@ import boto3
 # Create a session using a specific profile
 session = boto3.Session(profile_name='my-profile')
 
-# Use the session to create clients/resources
+# Use the session to create clients
 s3 = session.client('s3')
-ec2 = session.resource('ec2')
+ec2 = session.client('ec2')
 ```
 
 ### Method 4: IAM Roles (for EC2 or Lambda)

@@ -10,7 +10,7 @@ This document contains the complete solution for the EC2 Instance Launch Automat
 AWS LAB01 - EC2 Instance Launch Automation
 
 This script demonstrates how to use boto3 to launch an EC2 instance in AWS.
-It covers basic EC2 instance creation with tags and waiting for the instance to be ready.
+It covers basic EC2 instance creation with tags and waiting for the instance to be running.
 
 Usage:
     python launch_ec2.py
@@ -20,8 +20,8 @@ import boto3
 import time
 from botocore.exceptions import ClientError
 
-# Initialize the EC2 resource with specified region
-ec2 = boto3.resource('ec2', region_name='eu-west-1')
+# Initialize the EC2 client with specified region
+ec2_client = boto3.client('ec2', region_name='eu-west-1')
 
 # Define instance parameters
 AMI_ID = 'ami-0fe0b2cf0e1f25c8a'  # Amazon Linux 2023 AMI in eu-west-1
@@ -50,11 +50,11 @@ def launch_instance():
     Launch an EC2 instance with defined parameters
     
     Returns:
-        ec2.Instance: The created EC2 instance object
+        str: The ID of the created EC2 instance
     """
     try:
         # Create a new EC2 instance
-        instances = ec2.create_instances(
+        response = ec2_client.run_instances(
             ImageId=AMI_ID,
             InstanceType=INSTANCE_TYPE,
             KeyName=KEY_NAME,
@@ -69,72 +69,106 @@ def launch_instance():
             ]
         )
         
-        instance = instances[0]
-        print(f"Launched EC2 instance: {instance.id}")
+        instance_id = response['Instances'][0]['InstanceId']
+        print(f"Launched EC2 instance: {instance_id}")
         
-        return instance
+        return instance_id
     except ClientError as e:
         print(f"Error launching EC2 instance: {e}")
         return None
 
-def wait_for_instance(instance):
+def wait_for_instance(instance_id):
     """
     Wait for the instance to be in a running state
     
     Args:
-        instance (ec2.Instance): EC2 instance object
+        instance_id (str): EC2 instance ID
+        
+    Returns:
+        dict: Instance details if successful, None otherwise
     """
     try:
         print("Waiting for instance to start running...")
-        instance.wait_until_running()
         
-        # Reload the instance to get the updated attributes
-        instance.reload()
-        
-        print("Instance is now running!")
-        return True
+        # Using a custom polling mechanism instead of waiters
+        while True:
+            response = ec2_client.describe_instances(InstanceIds=[instance_id])
+            instance = response['Reservations'][0]['Instances'][0]
+            instance_state = instance['State']['Name']
+            
+            if instance_state == 'running':
+                print("Instance is now running!")
+                return instance
+            
+            if instance_state in ['terminated', 'shutting-down']:
+                print(f"Instance entered {instance_state} state unexpectedly.")
+                return None
+                
+            print(f"Current state: {instance_state}. Waiting...")
+            time.sleep(5)  # Wait for 5 seconds before checking again
+            
     except ClientError as e:
         print(f"Error waiting for instance: {e}")
-        return False
+        return None
 
 def display_instance_details(instance):
     """
     Print useful details about the instance
     
     Args:
-        instance (ec2.Instance): EC2 instance object
+        instance (dict): EC2 instance details from describe_instances
     """
     print("\nInstance Details:")
-    print(f"  Instance ID: {instance.id}")
-    print(f"  Instance State: {instance.state['Name']}")
-    print(f"  Instance Type: {instance.instance_type}")
-    print(f"  AMI ID: {instance.image_id}")
-    print(f"  Public DNS: {instance.public_dns_name}")
-    print(f"  Public IP: {instance.public_ip_address}")
-    print(f"  Private IP: {instance.private_ip_address}")
+    print(f"  Instance ID: {instance['InstanceId']}")
+    print(f"  Instance State: {instance['State']['Name']}")
+    print(f"  Instance Type: {instance['InstanceType']}")
+    print(f"  AMI ID: {instance['ImageId']}")
+    
+    # Some attributes may not exist in all instances
+    public_dns = instance.get('PublicDnsName', 'N/A')
+    public_ip = instance.get('PublicIpAddress', 'N/A')
+    private_ip = instance.get('PrivateIpAddress', 'N/A')
+    
+    print(f"  Public DNS: {public_dns}")
+    print(f"  Public IP: {public_ip}")
+    print(f"  Private IP: {private_ip}")
     
     # Print the instance tags
-    print("\nInstance Tags:")
-    for tag in instance.tags:
-        print(f"  {tag['Key']}: {tag['Value']}")
+    if 'Tags' in instance:
+        print("\nInstance Tags:")
+        for tag in instance['Tags']:
+            print(f"  {tag['Key']}: {tag['Value']}")
 
-def terminate_instance(instance):
+def terminate_instance(instance_id):
     """
     Terminate an EC2 instance
     
     Args:
-        instance (ec2.Instance): EC2 instance object
+        instance_id (str): EC2 instance ID
     """
     try:
-        instance.terminate()
-        print(f"\nTerminating instance: {instance.id}")
+        # Terminate the instance
+        ec2_client.terminate_instances(InstanceIds=[instance_id])
+        print(f"\nTerminating instance: {instance_id}")
         print("Waiting for instance to terminate...")
         
-        # Wait for the instance to terminate
-        instance.wait_until_terminated()
-        print("Instance terminated successfully.")
-        
-        return True
+        # Poll until instance is terminated
+        while True:
+            response = ec2_client.describe_instances(InstanceIds=[instance_id])
+            instance = response['Reservations'][0]['Instances'][0]
+            instance_state = instance['State']['Name']
+            
+            if instance_state == 'terminated':
+                print("Instance terminated successfully.")
+                return True
+                
+            if instance_state in ['shutting-down', 'terminated']:
+                print(f"Instance state: {instance_state}")
+            else:
+                print(f"Unexpected instance state: {instance_state}")
+                
+            time.sleep(5)  # Wait for 5 seconds before checking again
+            
     except ClientError as e:
         print(f"Error terminating instance: {e}")
         return False
@@ -144,41 +178,46 @@ if __name__ == "__main__":
     print("===========================")
     
     # Launch a new EC2 instance
-    instance = launch_instance()
+    instance_id = launch_instance()
     
-    if instance:
+    if instance_id:
         # Wait for the instance to be running
-        if wait_for_instance(instance):
+        instance = wait_for_instance(instance_id)
+        
+        if instance:
             # Display instance details
             display_instance_details(instance)
             
             # Provide SSH connection command if the instance has a public DNS
-            if instance.public_dns_name:
+            public_dns = instance.get('PublicDnsName')
+            if public_dns:
                 print(f"\nTo connect to your instance via SSH:")
-                print(f"ssh -i /path/to/{KEY_NAME}.pem ec2-user@{instance.public_dns_name}")
+                print(f"ssh -i /path/to/{KEY_NAME}.pem ec2-user@{public_dns}")
         
         # Warning about charges
         print("\n⚠️  IMPORTANT: Remember to terminate this instance when done to avoid charges!")
         print("To terminate the instance, uncomment the terminate_instance call below or use the AWS console.")
         
         # Uncomment the line below to terminate the instance automatically
-        # terminate_instance(instance)
+        # terminate_instance(instance_id)
 ```
 
 ## Key Learning Points
 
 1. **AWS SDK Setup**:
    - Using boto3 to interact with AWS services
-   - Initializing an EC2 resource with a specific region
+   - Initializing an EC2 client with a specific region
 
 2. **EC2 Instance Creation**:
+   - Using the run_instances API to launch EC2 instances
    - Configuring instance parameters: AMI ID, instance type, key pair, etc.
    - Adding tags for resource identification and organization
    - Using security groups to control network access
 
 3. **Resource Monitoring**:
-   - Using waiters to poll for resource state changes
-   - Reloading resources to get updated attributes
+   - Using describe_instances to check instance status
+   - Implementing custom polling mechanisms to wait for state changes
+   - Extracting instance information from API responses
 
 4. **Error Handling**:
    - Implementing try/except blocks to handle AWS API errors
@@ -186,7 +225,8 @@ if __name__ == "__main__":
 
 5. **Resource Management**:
    - Creating helpful utility functions for common operations
-   - Properly terminating resources to avoid unexpected charges
+   - Using terminate_instances to properly clean up resources
+   - Checking termination status to confirm cleanup
 
 ## Common Issues and Troubleshooting
 
@@ -208,4 +248,8 @@ if __name__ == "__main__":
 
 5. **Security Group Configuration**:
    - Unable to connect to instance if security group doesn't allow SSH access
-   - Solution: Update security group to allow inbound traffic on port 22 
+   - Solution: Update security group to allow inbound traffic on port 22
+
+6. **API Rate Limiting**:
+   - Consider adding retry logic or backoff mechanisms for API calls
+   - Solution: Implement exponential backoff for API polling 

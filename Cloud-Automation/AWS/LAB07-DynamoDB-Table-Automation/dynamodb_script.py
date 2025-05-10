@@ -28,7 +28,7 @@ def create_table(table_name, region=DEFAULT_REGION):
         bool: True if successful, False otherwise
     """
     # TODO: Implement table creation with the following:
-    # - Create a boto3 DynamoDB resource
+    # - Create a boto3 DynamoDB client with boto3.client('dynamodb', region_name=region)
     # - Create a table with 'username' as the partition key (string type)
     # - Set provisioned throughput to 5 read and 5 write capacity units
     # - Add a tag with key 'Environment' and value 'DevOps-Lab'
@@ -52,6 +52,7 @@ def wait_for_table_creation(table_name, region=DEFAULT_REGION, max_attempts=10):
     # TODO: Implement waiting logic:
     # - Create a boto3 DynamoDB client
     # - Poll the table status in a loop with a wait time between attempts
+    # - Use client.describe_table() to get the table status
     # - Exit the loop when the table becomes ACTIVE
     # - Implement a timeout mechanism using max_attempts
     
@@ -70,7 +71,7 @@ def list_tables(region=DEFAULT_REGION):
     """
     # TODO: Implement table listing:
     # - Create a boto3 DynamoDB client
-    # - Get a list of all table names
+    # - Use client.list_tables() to get a list of all table names
     # - Print the table names in a formatted way
     # - Return the list of table names
     
@@ -90,9 +91,9 @@ def insert_item(table_name, item, region=DEFAULT_REGION):
         bool: True if successful, False otherwise
     """
     # TODO: Implement item insertion:
-    # - Create a boto3 DynamoDB resource
-    # - Get a reference to the table
-    # - Insert the item using put_item()
+    # - Create a boto3 DynamoDB client
+    # - Convert Python types to DynamoDB format (e.g., strings to {'S': value})
+    # - Use client.put_item() to insert the item
     # - Print confirmation message
     # - Implement error handling
     
@@ -113,9 +114,10 @@ def get_item(table_name, key_value, key_name='username', region=DEFAULT_REGION):
         dict: The retrieved item or None if not found
     """
     # TODO: Implement item retrieval:
-    # - Create a boto3 DynamoDB resource
-    # - Get a reference to the table
-    # - Retrieve the item using get_item() with the key
+    # - Create a boto3 DynamoDB client
+    # - Format the key in DynamoDB format (e.g., {key_name: {'S': key_value}})
+    # - Retrieve the item using client.get_item() with the key
+    # - Convert the returned DynamoDB format to Python dict
     # - Print the retrieved item if found
     # - Handle the case when the item is not found
     # - Implement error handling
@@ -136,7 +138,7 @@ def delete_table(table_name, region=DEFAULT_REGION):
     """
     # TODO: Implement table deletion:
     # - Create a boto3 DynamoDB client
-    # - Delete the table
+    # - Use client.delete_table() to delete the table
     # - Print confirmation message
     # - Implement error handling
     

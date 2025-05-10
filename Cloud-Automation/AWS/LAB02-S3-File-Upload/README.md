@@ -77,7 +77,7 @@ python upload_file.py
 ## 🧹 Cleanup
 Delete the object manually or use:
 ```python
-s3.delete_object(Bucket=bucket_name, Key=s3_key)
+s3_client.delete_object(Bucket=bucket_name, Key=s3_key)
 ```
 
 ---

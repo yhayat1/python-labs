@@ -8,7 +8,7 @@ In this lab, you'll learn how to launch an Amazon EC2 instance using Python and 
 
 By the end of this lab, you will:
 - Understand how to configure AWS credentials for `boto3`
-- Use Python to interact with EC2 APIs
+- Use Python to interact with EC2 APIs using the client interface
 - Launch a t2.micro EC2 instance in your default VPC
 - Print out the instance ID and public DNS
 
@@ -76,7 +76,7 @@ python launch_ec2.py
 ## 🧹 Cleanup
 Terminate the instance manually in AWS Console or run:
 ```python
-instance.terminate()
+ec2_client.terminate_instances(InstanceIds=['i-your-instance-id'])
 ```
 
 ---

@@ -194,16 +194,39 @@ def delete_bucket(bucket_name, force=False):
         bool: True if bucket was deleted, False on error
     """
     try:
-        # Initialize S3 client and resource
+        # Initialize S3 client
         s3_client = boto3.client('s3')
-        s3_resource = boto3.resource('s3')
-        
-        bucket = s3_resource.Bucket(bucket_name)
         
         # Delete all objects if force=True
         if force:
             print(f"Deleting all objects in bucket {bucket_name}...")
-            bucket.objects.all().delete()
+            
+            # List all objects in the bucket
+            response = s3_client.list_objects_v2(Bucket=bucket_name)
+            
+            if 'Contents' in response:
+                # Create a list of objects to delete
+                objects_to_delete = [{'Key': obj['Key']} for obj in response['Contents']]
+                
+                # Delete the objects
+                s3_client.delete_objects(
+                    Bucket=bucket_name,
+                    Delete={'Objects': objects_to_delete}
+                )
+                
+                # For buckets with more than 1000 objects, we need to paginate
+                while response['IsTruncated']:
+                    response = s3_client.list_objects_v2(
+                        Bucket=bucket_name,
+                        ContinuationToken=response['NextContinuationToken']
+                    )
+                    
+                    if 'Contents' in response:
+                        objects_to_delete = [{'Key': obj['Key']} for obj in response['Contents']]
+                        s3_client.delete_objects(
+                            Bucket=bucket_name,
+                            Delete={'Objects': objects_to_delete}
+                        )
         
         # Delete the bucket
         print(f"Deleting bucket: {bucket_name}")

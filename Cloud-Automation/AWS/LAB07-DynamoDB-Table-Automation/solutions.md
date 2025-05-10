@@ -22,7 +22,6 @@ from botocore.exceptions import ClientError
 
 # Configure the DynamoDB client
 dynamodb = boto3.client('dynamodb', region_name='eu-west-1')
-dynamodb_resource = boto3.resource('dynamodb', region_name='eu-west-1')
 
 # Define your table name
 table_name = 'DevOpsUsers'
@@ -137,10 +136,20 @@ def insert_item(table_name, item):
         bool: True if successful, False otherwise
     """
     try:
-        table = dynamodb_resource.Table(table_name)
+        # Convert Python types to DynamoDB types
+        dynamodb_item = {
+            'username': {'S': item['username']},
+            'role': {'S': item['role']},
+            'email': {'S': item['email']},
+            'active': {'BOOL': item['active']},
+            'last_login': {'S': item['last_login']}
+        }
         
         print(f"\nInserting item: {item}")
-        response = table.put_item(Item=item)
+        response = dynamodb.put_item(
+            TableName=table_name,
+            Item=dynamodb_item
+        )
         
         print("Item inserted successfully!")
         return True
@@ -161,18 +170,33 @@ def get_item(table_name, key):
         dict: The retrieved item
     """
     try:
-        table = dynamodb_resource.Table(table_name)
+        # Convert Python key to DynamoDB format
+        dynamodb_key = {
+            'username': {'S': key['username']}
+        }
         
         print(f"\nRetrieving item with username: {key['username']}")
-        response = table.get_item(Key=key)
+        response = dynamodb.get_item(
+            TableName=table_name,
+            Key=dynamodb_key
+        )
         
-        item = response.get('Item')
-        if item:
+        # Check if item exists
+        if 'Item' in response:
+            # Convert DynamoDB format back to Python dict
+            item = {
+                'username': response['Item']['username']['S'],
+                'role': response['Item']['role']['S'],
+                'email': response['Item']['email']['S'],
+                'active': response['Item']['active']['BOOL'],
+                'last_login': response['Item']['last_login']['S']
+            }
             print(f"Retrieved item: {item}")
+            return item
         else:
             print("Item not found")
+            return None
             
-        return item
     except ClientError as e:
         print(f"Error retrieving item: {e}")
         return None
@@ -231,9 +255,9 @@ if __name__ == "__main__":
 
 ## Key Learning Points
 
-1. **Boto3 Client vs Resource**: 
-   - The client interface (`boto3.client('dynamodb')`) provides low-level access to DynamoDB operations
-   - The resource interface (`boto3.resource('dynamodb')`) provides a higher-level, more Pythonic interface
+1. **Boto3 DynamoDB Client**: 
+   - The client interface (`boto3.client('dynamodb')`) provides direct access to DynamoDB operations
+   - Client APIs require data to be formatted according to DynamoDB's data types (S, N, BOOL, etc.)
 
 2. **Table Creation**:
    - Tables require a key schema (partition key, optional sort key)
@@ -249,8 +273,9 @@ if __name__ == "__main__":
    - Handling common errors like 'ResourceInUseException'
 
 5. **Item Operations**:
-   - Using the resource interface for simpler item operations
+   - Converting between Python native types and DynamoDB attribute types
    - put_item() for insertion, get_item() for retrieval
+   - Understanding DynamoDB's data type descriptors (S, N, BOOL, etc.)
 
 6. **Cleanup**:
    - Always clean up resources to avoid unnecessary charges
