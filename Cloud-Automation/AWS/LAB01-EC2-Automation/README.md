@@ -56,35 +56,8 @@ pip freeze > requirements.txt
 
 ## ✍️ Your Task
 
-### 1. Write a script to launch EC2:
-```python
-import boto3
-
-# Create EC2 resource
-ec2 = boto3.resource('ec2', region_name='eu-west-1')
-
-# Launch a t2.micro instance
-instance = ec2.create_instances(
-    ImageId='ami-0fe0b2cf0e1f25c8a',  # Amazon Linux 2023 AMI in eu-west-1
-    MinCount=1,
-    MaxCount=1,
-    InstanceType='t2.micro',
-    KeyName='your-key-name',  # Replace with your key pair
-    TagSpecifications=[{
-        'ResourceType': 'instance',
-        'Tags': [{'Key': 'Name', 'Value': 'PythonLabEC2'}]
-    }]
-)[0]
-
-print("Launching instance...")
-instance.wait_until_running()
-instance.reload()
-print("Instance launched with ID:", instance.id)
-print("Public DNS:", instance.public_dns_name)
-```
-
-### 2. Replace placeholders:
-- Replace `your-key-name` with your actual EC2 key pair name.
+### Complete all TODOs in [launch_ec2.py](./launch_ec2.py)
+### Solutions can be found in [solutions.md](./solutions.md)
 
 ---
 

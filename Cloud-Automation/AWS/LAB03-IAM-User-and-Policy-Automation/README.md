@@ -56,30 +56,8 @@ pip freeze > requirements.txt
 
 ## ✍️ Your Task
 
-### 1. Create an IAM user:
-```python
-import boto3
-
-username = 'devops-lab-user'
-iam = boto3.client('iam', region_name='eu-west-1')
-
-response = iam.create_user(UserName=username)
-print(f"Created user: {response['User']['UserName']}")
-```
-
-### 2. Attach a managed policy:
-```python
-policy_arn = 'arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess'
-iam.attach_user_policy(UserName=username, PolicyArn=policy_arn)
-print("Attached AmazonS3ReadOnlyAccess policy")
-```
-
-### 3. List IAM users:
-```python
-users = iam.list_users()
-for user in users['Users']:
-    print(user['UserName'])
-```
+### Complete all TODOs in [create_iam_user.py](./create_iam_user.py)
+### Solutions can be found in [solutions.md](./solutions.md)
 
 ---
 
