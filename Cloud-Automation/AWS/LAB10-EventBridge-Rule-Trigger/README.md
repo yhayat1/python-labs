@@ -55,34 +55,8 @@ pip freeze > requirements.txt
 
 ## ✍️ Your Task
 
-### 1. Create a rule:
-```python
-import boto3
-
-eventbridge = boto3.client('events')
-rule_name = 'EveryMinuteRule'
-
-response = eventbridge.put_rule(
-    Name=rule_name,
-    ScheduleExpression='rate(1 minute)',
-    State='ENABLED'
-)
-print("Rule created:", response['RuleArn'])
-```
-
-### 2. Attach a Lambda function target:
-```python
-lambda_arn = 'arn:aws:lambda:region:account-id:function:MyDevOpsLambda'  # Replace this
-
-eventbridge.put_targets(
-    Rule=rule_name,
-    Targets=[{
-        'Id': '1',
-        'Arn': lambda_arn
-    }]
-)
-print("Target attached to rule.")
-```
+### Complete all TODOs in [eventbridge_script.py](./eventbridge_script.py)
+### Solutions can be found in [solutions.md](./solutions.md)
 
 ---
 

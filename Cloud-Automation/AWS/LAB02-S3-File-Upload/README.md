@@ -57,27 +57,8 @@ pip freeze > requirements.txt
 
 ## ✍️ Your Task
 
-### 1. Upload file to S3:
-```python
-import boto3
-
-bucket_name = 'your-bucket-name'  # Replace this
-file_name = 'sample.txt'
-s3_key = 'uploads/sample.txt'
-
-# Create S3 client in eu-west-1 region
-s3 = boto3.client('s3', region_name='eu-west-1')
-s3.upload_file(file_name, bucket_name, s3_key, ExtraArgs={'ACL': 'public-read'})
-
-print(f"Uploaded {file_name} to s3://{bucket_name}/{s3_key}")
-```
-
-### 2. List objects in the bucket:
-```python
-response = s3.list_objects_v2(Bucket=bucket_name)
-for obj in response.get('Contents', []):
-    print("Found object:", obj['Key'])
-```
+### Complete all TODOs in [upload_file.py](./upload_file.py)
+### Solutions can be found in [solutions.md](./solutions.md)
 
 ---
 

@@ -55,44 +55,8 @@ pip freeze > requirements.txt
 
 ## ✍️ Your Task
 
-### 1. Get metrics for an instance:
-```python
-import boto3
-
-client = boto3.client('cloudwatch', region_name='eu-west-1')
-instance_id = 'your-ec2-instance-id'
-
-response = client.get_metric_statistics(
-    Namespace='AWS/EC2',
-    MetricName='CPUUtilization',
-    Dimensions=[{'Name': 'InstanceId', 'Value': instance_id}],
-    StartTime=datetime.utcnow() - timedelta(minutes=60),
-    EndTime=datetime.utcnow(),
-    Period=300,
-    Statistics=['Average']
-)
-
-for point in response['Datapoints']:
-    print("CPU Usage:", point['Average'])
-```
-
-### 2. Create a CPU alarm:
-```python
-client.put_metric_alarm(
-    AlarmName='HighCPUAlert',
-    MetricName='CPUUtilization',
-    Namespace='AWS/EC2',
-    Statistic='Average',
-    Period=300,
-    EvaluationPeriods=1,
-    Threshold=70.0,
-    ComparisonOperator='GreaterThanThreshold',
-    Dimensions=[{'Name': 'InstanceId', 'Value': instance_id}],
-    AlarmActions=[],  # Add ARN of SNS topic if needed
-    ActionsEnabled=False  # Change to True if you add actions
-)
-print("Alarm created!")
-```
+### Complete all TODOs in [monitor.py](./monitor.py)
+### Solutions can be found in [solutions.md](./solutions.md)
 
 ---
 
