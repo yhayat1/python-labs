@@ -2,7 +2,7 @@
 
 This document contains the complete solution for the IAM User and Policy Automation lab exercise. Use this file as a reference only after attempting to solve the lab exercises on your own.
 
-## Solution for iam_automation.py
+## Solution for create_iam_user.py
 
 ```python
 #!/usr/bin/env python3
@@ -16,7 +16,7 @@ This script demonstrates how to automate IAM operations using boto3, including:
 - Creating and assigning roles
 
 Usage:
-    python iam_automation.py --username <username> [--policy <policy_name>] [--cleanup]
+    python create_iam_user.py --username <username> [--policy <policy_name>] [--cleanup]
 """
 
 import boto3
