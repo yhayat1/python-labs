@@ -2,7 +2,7 @@
 
 This document contains the complete solution for the S3 File Upload Automation lab exercise. Use this file as a reference only after attempting to solve the lab exercises on your own.
 
-## Solution for s3_upload.py
+## Solution for upload_file.py
 
 ```python
 #!/usr/bin/env python3
@@ -13,7 +13,7 @@ This script demonstrates how to use boto3 to automate S3 bucket operations,
 including creating buckets, uploading files, setting permissions, and generating presigned URLs.
 
 Usage:
-    python s3_upload.py --file <file_path> [--bucket <bucket_name>] [--region <region>] [--public]
+    python upload_file.py --file <file_path> [--bucket <bucket_name>] [--region <region>] [--public]
 """
 
 import boto3
