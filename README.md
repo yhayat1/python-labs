@@ -25,13 +25,19 @@ python-labs/
 │   ├── LAB05-Error-Handling-and-Logging/
 │   ├── LAB06-OOP-and-Classes/
 │   ├── LAB07-Virtualenv-and-Packaging/
-│   └── LAB08-Unit-Testing-Basics/
+│   ├── LAB08-Unit-Testing-Basics/
+│   ├── LAB09-Data-Formats/
+│   ├── LAB10-API-Interaction/
+│   ├── LAB11-CLI-Development/
+│   └── LAB12-Async-Programming/
 │
 ├── Automation-Scripting/       # DevOps scripting and tool building
 │   ├── LAB01-Simple-CLI-Tool/
 │   ├── LAB02-Automate-File-Downloads/
 │   ├── LAB03-Process-Logs-and-Reports/
-│   └── LAB04-System-Monitoring-Scripts/
+│   ├── LAB04-System-Monitoring-Scripts/
+│   ├── LAB05-API-Integration-Tool/
+│   └── LAB06-Task-Scheduler-Automation/
 │
 ├── Cloud-Automation/           # Python SDK automation with AWS, Azure, GCP
 │   ├── AWS/                    # AWS automation with boto3
@@ -47,13 +53,35 @@ python-labs/
 │   │   └── LAB10-EventBridge-Rule-Trigger/
 │   │
 │   ├── Azure/                  # Azure automation with azure-mgmt
+│   │   ├── LAB01-VM-Creation-With-AzureSDK/
+│   │   ├── LAB02-Blob-Storage-Upload/
+│   │   ├── LAB03-IAM-Role-Assignment/
+│   │   ├── LAB04-Azure-Function-Deployment/
+│   │   ├── LAB05-Monitor-Metrics-And-Alerts/
+│   │   ├── LAB06-Service-Bus-Queue-Creation/
+│   │   ├── LAB07-Azure-SQL-Database-Automation/
+│   │   ├── LAB08-Virtual-Network-Setup/
+│   │   ├── LAB09-CosmosDB-Document-Management/
+│   │   └── LAB10-Azure-Container-Instance-Launch/
+│   │
 │   └── GCP/                    # GCP automation with google-cloud
+│       ├── LAB01-Compute-Instance-Creation/
+│       ├── LAB02-GCS-File-Upload/
+│       ├── LAB03-IAM-Service-Account-Creation/
+│       ├── LAB04-Cloud-Functions-Deployment/
+│       ├── LAB05-Cloud-Monitoring-Metrics/
+│       ├── LAB06-PubSub-Topic-and-Subscription/
+│       ├── LAB07-Cloud-SQL-Instance-Automation/
+│       ├── LAB08-VPC-Network-Creation/
+│       ├── LAB09-Firestore-Document-Operations/
+│       └── LAB10-Cloud-Run-Deployment/
 │
 └── ROADMAP.md                  # Complete learning path and progression
 ```
 
 Each lab folder includes:
-- Python scripts (`main.py`, `utils.py`, etc.)
+- Python scripts (`main.py`, `utils.py`, etc.) with TODOs for student implementation
+- Complete solution reference in `solutions.md`
 - `README.md` with lab purpose, steps, and cleanup instructions
 - Optional: `requirements.txt`, `env.example`, or `config.yaml`
 
@@ -85,14 +113,16 @@ To complete these labs, you should have:
    pip install -r requirements.txt
    ```
 
-5. Follow the lab instructions and execute the scripts.
+5. Follow the lab instructions in the README.md and implement the code by completing the TODOs.
+
+6. Check your solution against the reference implementation in solutions.md.
 
 ## 📈 Learning Progression
 
 Our labs follow a clear learning path:
 
-1. **Phase 1: Core Python** — Master Python fundamentals, OOP, and clean code practices
-2. **Phase 2: Automation Scripting** — Build practical automation tools and scripts
+1. **Phase 1: Core Python** — Master Python fundamentals, OOP, data formats, API interaction, CLI development, and async programming
+2. **Phase 2: Automation Scripting** — Build practical automation tools and scripts for file operations, monitoring, and task scheduling
 3. **Phase 3: Cloud Automation** — Use cloud SDKs to manage resources programmatically across AWS, Azure, and GCP
 
 ## 🌐 Detailed Lab Roadmap
