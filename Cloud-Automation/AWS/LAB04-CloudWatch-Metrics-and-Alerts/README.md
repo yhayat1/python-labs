@@ -7,9 +7,11 @@ This lab guides you through collecting EC2 metrics and setting up an alarm using
 ## 🎯 Objectives
 
 By the end of this lab, you will:
-- Use Python and `boto3` to retrieve CloudWatch metrics
-- Create a CloudWatch alarm for CPU usage on an EC2 instance
-- List alarms and their statuses
+- Retrieve EC2 CPU utilization metrics using CloudWatch API
+- Create CloudWatch alarms based on metric thresholds
+- List and manage existing CloudWatch alarms
+- Delete CloudWatch alarms when they're no longer needed
+- Verify EC2 instance states programmatically
 
 ---
 
@@ -18,6 +20,7 @@ By the end of this lab, you will:
 - AWS account with EC2 and CloudWatch permissions
 - A running EC2 instance (or create one in LAB01)
 - Python 3.8+ and `boto3` installed
+- Basic understanding of CloudWatch metrics and alarms
 
 ---
 
@@ -45,38 +48,77 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-3. Install `boto3`:
+3. Install dependencies:
 ```bash
-pip install boto3
-pip freeze > requirements.txt
+pip install -r requirements.txt
 ```
 
 ---
 
 ## ✍️ Your Task
 
-### Complete all TODOs in [monitor.py](./monitor.py)
+Open `monitor.py` and complete all the TODOs:
+
+1. In the `get_cpu_metrics()` function:
+   - Initialize the CloudWatch client
+   - Set default time ranges for metrics queries
+   - Retrieve CPU utilization metrics using get_metric_statistics
+   - Process and return the results sorted by timestamp
+
+2. In the `create_cpu_alarm()` function:
+   - Initialize the CloudWatch client
+   - Create a CloudWatch alarm using put_metric_alarm
+   - Configure all required parameters for the alarm
+
+3. In the `list_alarms()` function:
+   - Initialize the CloudWatch client
+   - Retrieve alarms using describe_alarms
+   - Format and display alarm information
+
+4. In the `delete_alarm()` function:
+   - Initialize the CloudWatch client
+   - Delete a CloudWatch alarm using delete_alarms
+
+5. In the `check_instance_exists()` function:
+   - Initialize the EC2 client
+   - Check if an instance exists and is in the running state
+   - Handle different instance states appropriately
+
+6. In the `print_metrics()` function:
+   - Format and display CloudWatch metrics in a readable format
+
+7. In the `main()` function:
+   - Set up command-line arguments
+   - Implement the main workflow based on provided arguments
+   - Add appropriate error handling
+
 ### Solutions can be found in [solutions.md](./solutions.md)
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ Metrics retrieved for a running EC2 instance  
-✅ CloudWatch alarm created successfully  
-✅ Alarm listed in CloudWatch console or via script  
+✅ Successfully retrieve CPU metrics for an EC2 instance  
+✅ Display metrics in a readable format  
+✅ Create a CloudWatch alarm for high CPU usage  
+✅ List all CloudWatch alarms in your account  
+✅ Delete a CloudWatch alarm when it's no longer needed  
+✅ Properly validate that an instance exists before monitoring it  
 ✅ Script runs without error:
 ```bash
-python monitor.py
+python monitor.py --instance-id i-0123456789abcdef --create-alarm
 ```
 
 ---
 
 ## 🧹 Cleanup
-Delete the alarm after testing:
-```python
-client.delete_alarms(AlarmNames=['HighCPUAlert'])
+
+To clean up the resources created during this lab, run:
+```bash
+python monitor.py --delete-alarm HighCPUAlert
 ```
+
+Make sure to implement the `delete_alarm()` function correctly to avoid unnecessary charges from CloudWatch alarms.
 
 ---
 

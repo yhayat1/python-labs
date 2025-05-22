@@ -48,15 +48,25 @@ source .venv/bin/activate
 
 3. Install `boto3`:
 ```bash
-pip install boto3
-pip freeze > requirements.txt
+pip install -r requirements.txt
 ```
 
 ---
 
 ## ✍️ Your Task
 
-### Complete all TODOs in [launch_ec2.py](./launch_ec2.py)
+Open `launch_ec2.py` and complete all the TODOs:
+
+1. Initialize the EC2 client with the appropriate region
+2. Set the AMI ID for Amazon Linux 2023 in eu-west-1
+3. Configure your key pair name and security group ID
+4. Define instance tags
+5. Implement the `launch_instance()` function to create an EC2 instance
+6. Implement the `wait_for_instance()` function to poll until the instance is running
+7. Implement the `display_instance_details()` function to print instance information
+8. Implement the `terminate_instance()` function for cleanup
+9. In the main section, uncomment and complete the required steps
+
 ### Solutions can be found in [solutions.md](./solutions.md)
 
 ---
@@ -74,10 +84,12 @@ python launch_ec2.py
 ---
 
 ## 🧹 Cleanup
-Terminate the instance manually in AWS Console or run:
-```python
-ec2_client.terminate_instances(InstanceIds=['i-your-instance-id'])
-```
+Make sure to implement the `terminate_instance()` function correctly to avoid unwanted AWS charges.
+
+If needed, you can also terminate the instance manually in the AWS Console:
+1. Go to the EC2 Dashboard
+2. Select your instance
+3. Choose Actions > Instance State > Terminate
 
 ---
 

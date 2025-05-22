@@ -13,14 +13,16 @@ By the end of this lab, you will:
 - Understand queue types (standard vs. FIFO) and their use cases
 - Implement message visibility timeout handling
 - Delete messages and queues properly to avoid resource leaks
+- Learn how to implement asynchronous communication patterns
 
 ---
 
 ## 🧰 Prerequisites
 
-- AWS account with appropriate permissions
+- AWS account with appropriate permissions for SQS
 - Python 3.8+ installed
 - AWS CLI configured with appropriate credentials
+- Basic understanding of messaging queues and asynchronous processing
 
 ---
 
@@ -28,10 +30,10 @@ By the end of this lab, you will:
 
 ```
 Cloud-Automation/AWS/LAB09-SQS-Queue-Automation/
-├── sqs_script.py
-├── requirements.txt
-├── README.md
-└── solutions.md (reference only)
+├── sqs_script.py         # Main script with TODOs to implement
+├── requirements.txt      # Required dependencies
+├── README.md             # Lab instructions
+└── solutions.md          # Reference solutions (consult after completing)
 ```
 
 ---
@@ -63,81 +65,124 @@ aws configure list
 
 ## ✍️ Your Task
 
-The script `sqs_script.py` contains skeleton functions with TODOs that you need to implement:
+Open the `sqs_script.py` file and complete all the TODOs to implement a comprehensive SQS automation script:
 
-1. Complete the `create_queue()` function to create an SQS queue
-2. Implement `list_queues()` to retrieve all SQS queues in your account
-3. Code the `send_message()` function to send a message to a queue
-4. Fill in the `receive_messages()` function to retrieve messages from a queue
-5. Complete the `delete_message()` function to remove a processed message
-6. Implement `delete_queue()` to clean up resources
+1. In the `create_queue()` function:
+   - Create a boto3 client for SQS in the specified region
+   - Use the create_queue method to create a new queue
+   - Handle queue attributes for configuration options
+   - Return the queue URL for further operations
+
+2. In the `list_queues()` function:
+   - Create a boto3 client for SQS in the specified region
+   - Use the list_queues method to get all queues
+   - Handle optional prefix filtering
+   - Print and return the queue URLs
+
+3. In the `send_message()` function:
+   - Create a boto3 client for SQS in the specified region
+   - Use the send_message method to send a message to the queue
+   - Add optional message attributes and delay seconds
+   - Return the message ID for tracking
+
+4. In the `receive_messages()` function:
+   - Create a boto3 client for SQS in the specified region
+   - Use the receive_message method with appropriate parameters
+   - Configure long polling and visibility timeout
+   - Process and return the received messages
+
+5. In the `delete_message()` function:
+   - Create a boto3 client for SQS in the specified region
+   - Use the delete_message method to remove the processed message
+   - Implement proper error handling
+   - Return success status
+
+6. In the `delete_queue()` function:
+   - Create a boto3 client for SQS in the specified region
+   - Use the delete_queue method to remove the queue
+   - Implement proper error handling
+   - Return success status
+
+The main function is already implemented to call your functions based on command-line arguments.
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ Run the script to test your implementation:
+✅ Successfully create an SQS queue with appropriate configuration  
+✅ List all queues in your account and verify your new queue exists  
+✅ Send messages to your queue with and without attributes  
+✅ Receive messages from the queue and process them correctly  
+✅ Delete messages after successful processing  
+✅ Delete the queue when finished with testing  
+✅ Handle all error conditions gracefully  
+
+✅ Script runs without errors with these commands:
 ```bash
+# Create a queue
 python sqs_script.py --create-queue DevOpsQueue
-```
 
-✅ The script should:
-- Create an SQS queue with the specified name
-- List all queues in your account
-- Allow you to send messages to the queue:
-```bash
+# List queues
+python sqs_script.py --list-queues
+
+# Send a message
 python sqs_script.py --queue-url <your-queue-url> --send-message "Test message"
-```
-- Enable receiving messages from the queue:
-```bash
-python sqs_script.py --queue-url <your-queue-url> --receive
-```
 
-✅ Try sending messages with attributes:
-```bash
+# Send a message with attributes
 python sqs_script.py --queue-url <your-queue-url> --send-message "Priority message" --attributes '{"Priority":{"DataType":"String","StringValue":"High"}}'
+
+# Receive messages
+python sqs_script.py --queue-url <your-queue-url> --receive
+
+# Delete the queue
+python sqs_script.py --delete-queue --queue-url <your-queue-url>
 ```
 
 ---
 
 ## 🧹 Cleanup
 
-When you're done with the lab, clean up resources to avoid charges:
+To avoid ongoing AWS charges, make sure to delete the SQS queue after testing:
 ```bash
 python sqs_script.py --delete-queue --queue-url <your-queue-url>
 ```
 
----
-
-## 💬 What's Next?
-
-Try [AWS LAB10 - EventBridge Rule Trigger](../LAB10-EventBridge-Rule-Trigger/) to learn about event-driven automation.
+**Important**: While SQS costs are minimal for low usage, it's good practice to clean up resources after testing.
 
 ---
 
 ## 📚 SQS Key Concepts
 
-- **Queue Types**: Standard queues offer maximum throughput, while FIFO queues guarantee exactly-once processing
-- **Message Visibility**: After a message is received, it becomes invisible to other consumers for a configurable period
-- **Dead Letter Queues**: Queues where messages that can't be processed successfully are sent after a defined number of attempts
-- **Long Polling**: A method to reduce empty responses by waiting for messages to arrive
+- **Queue Types**: Standard queues offer maximum throughput with at-least-once delivery, while FIFO queues guarantee exactly-once processing and message ordering
+- **Message Visibility**: After a message is received, it becomes invisible to other consumers for a configurable period (the visibility timeout)
+- **Dead Letter Queues**: Special queues where messages that can't be processed successfully are sent after a defined number of attempts
+- **Long Polling**: A method to reduce empty responses and costs by waiting for messages to arrive (up to 20 seconds)
 - **Message Attributes**: Metadata stored with messages for additional context (up to 10 attributes per message)
+- **Delay Queues**: Ability to postpone delivery of new messages to a queue for a specified number of seconds
+- **Message Retention**: SQS can retain messages for up to 14 days before automatic deletion
 
 ---
 
 ## 🚀 Extension Tasks
 
-If you complete the main tasks, try these additional challenges:
-1. Create a FIFO queue with message deduplication
+After completing the main tasks, try these additional challenges:
+1. Create a FIFO queue with message deduplication enabled
 2. Implement a dead letter queue for handling failed message processing
 3. Add long polling support to your message receiving function
 4. Create a producer-consumer pattern with multiple scripts
 5. Implement batch operations for sending and deleting messages
+6. Add message filtering based on message attributes
+
+---
+
+## 💬 What's Next?
+
+Next: [AWS LAB10 - EventBridge Rule Trigger](../LAB10-EventBridge-Rule-Trigger/) to learn how to automate event-driven workflows in the cloud.
 
 ---
 
 ## 🙏 Acknowledgments
 
-Amazon SQS is a fundamental building block for creating loosely coupled, distributed systems in AWS.
+Amazon SQS is a fundamental building block for creating loosely coupled, distributed systems in AWS. These skills will help you implement asynchronous processing and decouple components in your cloud architecture.
 
 Happy queueing! 📩🐍

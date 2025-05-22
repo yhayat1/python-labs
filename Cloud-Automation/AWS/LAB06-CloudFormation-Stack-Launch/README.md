@@ -7,11 +7,13 @@ CloudFormation lets you define your infrastructure as code. In this lab, you'll 
 ## 🎯 Objectives
 
 By the end of this lab, you will:
-- Use Python to launch a CloudFormation stack
-- Deploy a simple EC2 instance using a template
-- Monitor stack creation status
-- Configure stack parameters through an INI file
-- Handle stack updates and deployments
+- Use Python to launch and manage CloudFormation stacks
+- Read and parse CloudFormation templates
+- Configure stack parameters through configuration files
+- Monitor stack creation progress and handle events
+- Retrieve and display stack outputs
+- Delete stacks when they're no longer needed
+- Handle errors and edge cases in CloudFormation operations
 
 ---
 
@@ -19,6 +21,8 @@ By the end of this lab, you will:
 
 - AWS account with CloudFormation and EC2 permissions
 - Python 3.8+ and `boto3` installed
+- Basic understanding of CloudFormation templates and stack deployments
+- Familiarity with configuration file parsing
 
 ---
 
@@ -26,10 +30,11 @@ By the end of this lab, you will:
 
 ```
 Cloud-Automation/AWS/LAB06-CloudFormation-Stack-Launch/
-├── launch_stack.py        # Scaffolded file for students to complete
-├── deploy_stack.py        # Reference implementation with advanced features
-├── ec2_template.yaml      # CloudFormation template file for EC2 instance
+├── launch_stack.py        # Simplified script with TODOs to complete
+├── deploy_stack.py        # Advanced script with TODOs to complete
+├── ec2_template.yaml      # CloudFormation template for EC2 instance
 ├── config.ini             # Configuration file for stack parameters
+├── requirements.txt
 └── README.md
 ```
 
@@ -50,73 +55,105 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 3. Install required packages:
 ```bash
-pip install boto3 configparser
-pip freeze > requirements.txt
+pip install -r requirements.txt
 ```
 
-4. Review configuration settings:
-```bash
-# The default AWS region is set to eu-west-1 (Ireland)
-# Make sure to update subnet and VPC IDs in config.ini before deploying
+4. Update the configuration:
+```ini
+# In config.ini
+[Parameters]
+SubnetID = subnet-xxxxxxxx  # Replace with your actual subnet ID
+VpcID = vpc-xxxxxxxx        # Replace with your actual VPC ID
+KeyName = your-key-name     # Replace with your EC2 key pair name
 ```
 
 ---
 
 ## ✍️ Your Task
 
-### 1. Examine the CloudFormation Template
-Review the provided `ec2_template.yaml` file to understand the EC2 instance and security group configuration. Note how parameters are defined and how resources reference each other.
+You have two options for this lab:
 
-### 2. Review the Configuration File
-Examine `config.ini` to see how stack parameters are configured outside the code for better separation of concerns.
+### Option 1: Complete `launch_stack.py` (Beginner)
 
-**Important**: Before deploying, students must update:
-- VPC ID - replace `subnet-12345678` with a valid subnet ID
-- Subnet ID - replace `vpc-12345678` with a valid VPC ID
-- KeyName - replace `my-demo-key` with an existing EC2 key pair name
+Open `launch_stack.py` and complete all the TODOs to create a basic CloudFormation deployment script:
 
-### 3. Complete the `launch_stack.py` Script
-Fill in the TODOs in the `launch_stack.py` file to:
-- Read the CloudFormation template 
-- Create a CloudFormation client
-- Deploy the stack with proper parameters
-- Monitor stack creation progress
-- Implement stack deletion functionality
+1. Import the necessary libraries
+2. Implement the function to read the CloudFormation template
+3. Create the function to create a CloudFormation stack
+4. Implement stack status checking functionality
+5. Add a function to wait for stack completion
+6. Create a function to delete a CloudFormation stack
+7. Implement error handling for AWS operations
+8. Complete the main function to orchestrate the deployment
 
-### 4. Optional: Study the Reference Implementation
-For advanced concepts, examine `deploy_stack.py` which includes:
-- Comprehensive error handling
-- Stack update capabilities
-- Configuration file parsing
-- Stack output retrieval
-- Status monitoring with proper waits
+### Option 2: Complete `deploy_stack.py` (Advanced)
+
+Open `deploy_stack.py` and complete all the TODOs to create a comprehensive CloudFormation deployment script:
+
+1. In the `load_config()` function:
+   - Check if the config file exists
+   - Create a ConfigParser object and read the file
+
+2. In the `load_template()` function:
+   - Open and read the template file
+
+3. In the `get_stack_parameters()` and `get_stack_tags()` functions:
+   - Extract parameters and tags from the config file
+
+4. In the `create_update_stack()` function:
+   - Check if the stack exists
+   - Create the stack parameter dictionary
+   - Implement the create or update logic
+
+5. In the `wait_for_stack()` function:
+   - Implement a polling mechanism for stack status
+   - Handle various stack states and timeouts
+
+6. In the `print_stack_events()` and `print_stack_outputs()` functions:
+   - Retrieve and display stack events and outputs
+
+7. In the `validate_config_parameters()` function:
+   - Check for placeholder values that should be replaced
+
+8. In the `delete_stack()` function:
+   - Implement stack deletion functionality
+
+9. In the `main()` function:
+   - Parse command line arguments
+   - Load and validate configuration
+   - Create the CloudFormation client
+   - Orchestrate the stack operations
+
+### Solutions can be found in [solutions.md](./solutions.md)
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ Configuration file properly set up  
-✅ Stack launched successfully with parameters from config  
-✅ Stack status monitored until completion  
-✅ Stack outputs retrieved and displayed  
-✅ Script handles errors gracefully
-✅ Stack can be deleted cleanly
+✅ Update configuration with valid AWS resource IDs  
+✅ Successfully read and parse the CloudFormation template  
+✅ Create a CloudFormation stack with the provided parameters  
+✅ Monitor stack creation progress until completion  
+✅ Display stack events and handle errors appropriately  
+✅ Show stack outputs after successful creation  
+✅ Delete the stack when requested  
+✅ Script runs without error:
+```bash
+python deploy_stack.py
+# or for deletion
+python deploy_stack.py --delete
+```
 
 ---
 
 ## 🧹 Cleanup
-Delete the stack to avoid ongoing AWS charges:
+
+To avoid ongoing AWS charges, make sure to delete the stack after testing:
 ```bash
-python launch_stack.py --delete
+python deploy_stack.py --delete
 ```
 
-Or add deletion code to your script:
-```python
-cf.delete_stack(StackName='DevOpsEC2Stack')
-print("Stack deletion initiated")
-```
-
-**Important**: AWS resources like EC2 instances will continue to incur charges until explicitly deleted. Always clean up your resources after completing the lab to avoid unexpected costs.
+**Important**: AWS resources like EC2 instances will continue to incur charges until explicitly deleted.
 
 ---
 

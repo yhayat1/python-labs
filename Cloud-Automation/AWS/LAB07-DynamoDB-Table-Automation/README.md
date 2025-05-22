@@ -8,18 +8,20 @@ This lab guides you through creating a Python script to automate DynamoDB table 
 
 By the end of this lab, you will:
 - Understand how to use boto3 to interact with DynamoDB
-- Learn to create and manage DynamoDB tables programmatically
+- Create and manage DynamoDB tables programmatically
 - Implement basic CRUD operations for DynamoDB items
-- Practice handling AWS SDK exceptions
+- Handle AWS SDK exceptions properly
 - Learn about DynamoDB's data model and indexing
+- Gain practical experience with NoSQL database operations in the cloud
 
 ---
 
 ## 🧰 Prerequisites
 
-- AWS account with appropriate permissions
+- AWS account with appropriate permissions for DynamoDB
 - Python 3.8+ installed
 - AWS CLI configured with appropriate credentials
+- Basic understanding of NoSQL database concepts
 
 ---
 
@@ -27,10 +29,10 @@ By the end of this lab, you will:
 
 ```
 Cloud-Automation/AWS/LAB07-DynamoDB-Table-Automation/
-├── dynamodb_script.py
-├── requirements.txt
-├── README.md
-└── solution_reference.py (reference only)
+├── dynamodb_script.py     # Main script with TODOs to implement
+├── requirements.txt       # Required dependencies
+├── README.md              # Lab instructions
+└── solutions.md           # Reference solutions (consult after completing)
 ```
 
 ---
@@ -45,7 +47,7 @@ cd Cloud-Automation/AWS/LAB07-DynamoDB-Table-Automation/
 2. Create and activate a virtual environment:
 ```bash
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
 3. Install the required dependencies:
@@ -62,30 +64,56 @@ aws configure list
 
 ## ✍️ Your Task
 
-The script `dynamodb_script.py` contains skeleton functions with TODOs that you need to implement:
+Open the `dynamodb_script.py` file and complete all the TODOs to implement a comprehensive DynamoDB automation script:
 
-1. Complete the `create_table()` function to create a DynamoDB table with a partition key
-2. Implement `wait_for_table_creation()` to poll the table status until it becomes active
-3. Code the `list_tables()` function to list all DynamoDB tables in your account
-4. Fill in the `insert_item()` function to add an item to the table
-5. Complete the `get_item()` function to retrieve an item based on its key
-6. Implement `delete_table()` to remove a DynamoDB table
+1. In the `create_table()` function:
+   - Create a boto3 DynamoDB client
+   - Set up a table with 'username' as the partition key (string type)
+   - Configure provisioned throughput (5 read/write capacity units)
+   - Add appropriate tagging
+   - Implement error handling for existing tables
+
+2. In the `wait_for_table_creation()` function:
+   - Create a polling mechanism to check table status
+   - Handle the transition to ACTIVE state
+   - Implement timeout logic
+
+3. In the `list_tables()` function:
+   - List all DynamoDB tables in your account
+   - Format and display the results
+
+4. In the `insert_item()` function:
+   - Convert Python types to DynamoDB format
+   - Insert an item into the table
+   - Implement proper error handling
+
+5. In the `get_item()` function:
+   - Format the key for DynamoDB
+   - Retrieve an item using the key
+   - Convert the response back to Python types
+   - Handle the case when an item is not found
+
+6. In the `delete_table()` function:
+   - Implement table deletion functionality
+   - Handle errors appropriately
+
+The main function is already implemented to call your functions in sequence.
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ Run the script to test your implementation:
+✅ Successfully create a DynamoDB table with the correct configuration  
+✅ Wait for the table to become active before proceeding  
+✅ List all tables in your account and confirm your new table exists  
+✅ Insert a sample item with the correct attribute types  
+✅ Retrieve the item and verify all attributes match what was inserted  
+✅ Delete the table when running with --cleanup flag  
+✅ Handle all error conditions gracefully  
+✅ Script runs without errors:
 ```bash
 python dynamodb_script.py
 ```
-
-✅ The script should:
-- Create a DynamoDB table named 'DevOpsUsers' (default)
-- Wait for the table to become active
-- List all tables in your account
-- Insert a sample item
-- Retrieve the item from the table
 
 ✅ Try running with custom parameters:
 ```bash
@@ -96,33 +124,30 @@ python dynamodb_script.py --table-name MyCustomTable --region us-east-1
 
 ## 🧹 Cleanup
 
-When you're done with the lab, clean up resources to avoid charges:
+To avoid ongoing AWS charges, make sure to delete the DynamoDB table after testing:
 ```bash
 python dynamodb_script.py --cleanup
 ```
 
----
-
-## 💬 What's Next?
-
-Try [AWS LAB08 - SNS Topic and Subscription](../LAB08-SNS-Topic-and-Subscription/) to learn about messaging services.
+**Important**: DynamoDB tables will continue to incur charges until explicitly deleted.
 
 ---
 
 ## 📚 DynamoDB Key Concepts
 
-- **Partition Key**: Unique identifier for items in the table
-- **Provisioned Throughput**: Read and write capacity units
+- **Partition Key**: Unique identifier for items in the table (hash key)
+- **Sort Key**: Optional second part of a composite key for more complex data models
+- **Provisioned Throughput**: Read and write capacity units that determine performance and cost
 - **Table Status**: Tables transition through states like CREATING, UPDATING, ACTIVE
 - **Item Operations**: How to put, get, update, and delete items
-- **Error Handling**: Handling common DynamoDB exceptions
+- **Error Handling**: Common DynamoDB exceptions and how to handle them
 
 ---
 
 ## 🚀 Extension Tasks
 
-If you complete the main tasks, try these additional challenges:
-1. Add update_item functionality to modify existing items
+After completing the main tasks, try these additional challenges:
+1. Add `update_item()` functionality to modify existing items
 2. Implement batch operations to insert or retrieve multiple items at once
 3. Add a secondary (sort) key to the table for more complex data modeling
 4. Implement a scan operation to retrieve items without knowing the key
@@ -130,8 +155,14 @@ If you complete the main tasks, try these additional challenges:
 
 ---
 
+## 💬 What's Next?
+
+Next: [AWS LAB08 - SNS Topic and Subscription](../LAB08-SNS-Topic-and-Subscription/) to learn how to automate messaging services in the cloud.
+
+---
+
 ## 🙏 Acknowledgments
 
-DynamoDB automation is fundamental for building scalable, serverless applications in AWS.
+DynamoDB automation is fundamental for building scalable, serverless applications in AWS. These skills will help you manage NoSQL databases as part of your infrastructure as code strategy.
 
 Happy NoSQL automating! 📊🐍
