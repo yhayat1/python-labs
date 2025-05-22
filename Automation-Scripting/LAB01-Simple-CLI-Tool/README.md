@@ -1,6 +1,6 @@
 # LAB01 - Building a Simple CLI Tool with Python
 
-Command-line interfaces (CLIs) are essential in DevOps. In this lab, you'll create your first CLI tool using Python's built-in `argparse` module. This tool will accept user input from the terminal and perform logic based on it.
+Command-line interfaces (CLIs) are essential in DevOps. In this lab, you'll create your first CLI tool using Python's built-in `argparse` module. This tool will accept user input from the terminal and perform arithmetic operations based on it.
 
 ---
 
@@ -9,7 +9,8 @@ Command-line interfaces (CLIs) are essential in DevOps. In this lab, you'll crea
 By the end of this lab, you will:
 - Understand how to use `argparse` to build command-line tools
 - Accept and validate input from the user
-- Build a simple calculator CLI that performs actions based on input
+- Build a simple calculator CLI that performs arithmetic operations
+- Learn to handle errors gracefully (e.g., division by zero)
 
 ---
 
@@ -24,8 +25,9 @@ By the end of this lab, you will:
 
 ```
 Automation-Scripting/LAB01-Simple-CLI-Tool/
-├── cli_tool.py
-└── README.md
+├── cli_tool.py         # Skeleton file with TODOs for you to implement
+├── README.md           # This file with instructions
+└── solutions.md        # Reference solutions (only check after completing)
 ```
 
 ---
@@ -40,43 +42,47 @@ cd Automation-Scripting/LAB01-Simple-CLI-Tool/
 2. (Optional) Create a virtual environment:
 ```bash
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
+
+3. Open `cli_tool.py` and follow the TODOs to implement your CLI calculator
 
 ---
 
 ## ✍️ Your Task
 
-### 1. Use argparse to build a CLI:
-```python
-import argparse
+You need to implement a command-line calculator that:
 
-parser = argparse.ArgumentParser(description="Simple CLI Calculator")
-parser.add_argument("x", type=int, help="First number")
-parser.add_argument("y", type=int, help="Second number")
-parser.add_argument("--op", choices=["add", "sub"], default="add", help="Operation to perform")
+1. Accepts two numbers as positional arguments
+2. Accepts an operation flag (--op) that specifies what operation to perform
+3. Supports at least these operations:
+   - Addition (`add`)
+   - Subtraction (`sub`)
+   - Multiplication (`mul`)
+   - Division (`div`)
+4. Handles errors gracefully (e.g., division by zero)
+5. Displays the result to the user
 
-args = parser.parse_args()
+The skeleton code with TODOs is provided in `cli_tool.py`. Follow the TODOs to complete the implementation.
 
-if args.op == "add":
-    print("Result:", args.x + args.y)
-else:
-    print("Result:", args.x - args.y)
-```
+### Example Usage (after implementation):
 
-### 2. Run it from the command line:
 ```bash
-python cli_tool.py 10 5 --op add
-python cli_tool.py 10 5 --op sub
+python cli_tool.py 10 5 --op add    # Result: 15
+python cli_tool.py 10 5 --op sub    # Result: 5
+python cli_tool.py 10 5 --op mul    # Result: 50
+python cli_tool.py 10 5 --op div    # Result: 2.0
 ```
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ CLI accepts and processes user arguments  
-✅ Supports at least two operations (`add`, `sub`)  
-✅ Script runs successfully from command line
+✅ CLI accepts two numbers and an operation  
+✅ Supports at least four operations (`add`, `sub`, `mul`, `div`)  
+✅ Handles errors gracefully (e.g., division by zero)  
+✅ Displays result correctly for each operation  
+✅ Script runs successfully from command line  
 
 ---
 

@@ -1,22 +1,24 @@
 # LAB04 - System Monitoring Scripts with Python
 
-System monitoring helps keep your infrastructure healthy and responsive. In this lab, you'll create a Python script that collects and displays key system metrics using the `psutil` library.
+System monitoring helps keep your infrastructure healthy and responsive. In this lab, you'll create a Python script that collects and displays key system metrics using the `psutil` library - an essential skill for DevOps engineers.
 
 ---
 
 ## 🎯 Objectives
 
 By the end of this lab, you will:
-- Use the `psutil` library to gather CPU, memory, and disk metrics
-- Display real-time stats in a readable format
-- Understand the value of lightweight monitoring tools
+- Use the `psutil` library to gather system metrics (CPU, memory, disk, network)
+- Format and display metrics in a user-friendly way
+- Implement real-time monitoring with periodic updates
+- (Bonus) Create visual representations of system usage
+- (Bonus) Add command-line arguments for customization
 
 ---
 
 ## 🧰 Prerequisites
 
 - Completion of LAB03 (Process Logs and Reports)
-- Python 3.8+ and `psutil` installed
+- Python 3.8+ installed
 
 ---
 
@@ -24,9 +26,10 @@ By the end of this lab, you will:
 
 ```
 Automation-Scripting/LAB04-System-Monitoring-Scripts/
-├── monitor.py
-├── requirements.txt
-└── README.md
+├── monitor.py          # Skeleton file with TODOs for you to implement
+├── requirements.txt    # Required dependencies
+├── README.md           # This file with instructions
+└── solutions.md        # Reference solutions (only check after completing)
 ```
 
 ---
@@ -41,64 +44,70 @@ cd Automation-Scripting/LAB04-System-Monitoring-Scripts/
 2. Create and activate a virtual environment:
 ```bash
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
-3. Install `psutil`:
+3. Install required dependencies:
 ```bash
-pip install psutil
-pip freeze > requirements.txt
+pip install -r requirements.txt
 ```
+
+4. Open `monitor.py` and follow the TODOs to implement your system monitoring tool
 
 ---
 
 ## ✍️ Your Task
 
-### 1. Collect system stats using `psutil`:
-```python
-import psutil
+You need to implement a system monitoring tool that:
 
-print("CPU Usage (%):", psutil.cpu_percent(interval=1))
-print("Memory Usage (%):", psutil.virtual_memory().percent)
-print("Disk Usage (%):", psutil.disk_usage('/').percent)
-```
+1. Collects system metrics using the `psutil` library:
+   - CPU usage percentage
+   - Memory usage (total, used, available, percentage)
+   - Disk usage (total, used, free, percentage)
+   - (Bonus) Network I/O statistics
 
-### 2. (Optional) Display metrics in a loop:
-```python
-import time
+2. Displays these metrics in a clear, readable format:
+   - Use formatting to align values and add units
+   - (Bonus) Add visual elements like progress bars
 
-while True:
-    print("--- System Metrics ---")
-    print("CPU:", psutil.cpu_percent(), "%")
-    print("RAM:", psutil.virtual_memory().percent, "%")
-    print("Disk:", psutil.disk_usage('/').percent, "%")
-    time.sleep(5)
-```
+3. (Bonus) Updates the display at regular intervals:
+   - Implement a monitoring loop with a sleep interval
+   - Allow for clean termination with Ctrl+C
+
+The skeleton code with TODOs is provided in `monitor.py`. Follow the TODOs to complete the implementation.
+
+### Metrics to Collect:
+
+The `psutil` library provides easy access to system information:
+- `psutil.cpu_percent()` - CPU usage percentage
+- `psutil.virtual_memory()` - Memory information
+- `psutil.disk_usage('/')` - Disk information
+- `psutil.net_io_counters()` - Network I/O statistics
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ Metrics for CPU, RAM, and disk are shown  
-✅ Output is user-friendly and updated periodically (if loop used)  
-✅ Script runs cleanly:
-```bash
-python monitor.py
-```
+✅ Script collects and displays CPU usage  
+✅ Memory metrics (total, used, available) are shown  
+✅ Disk usage information is properly formatted  
+✅ (Bonus) Network statistics are included  
+✅ (Bonus) Display updates periodically in a loop  
+✅ Output is clear, well-formatted and easy to read  
 
 ---
 
 ## 🧹 Cleanup
-You can terminate the script with `Ctrl+C`.
+You can terminate the script with `Ctrl+C` if it's running in a loop.
 
 ---
 
 ## 💬 What's Next?
-Ready to explore cloud automation? Head to the Cloud Automation section to begin working with AWS, Azure, or GCP via Python SDKs.
+Continue to [LAB05 - API Integration Tool](../LAB05-API-Integration-Tool/) to learn how to interact with web APIs for automation tasks.
 
 ---
 
 ## 🙏 Acknowledgments
-Simple monitoring scripts can provide immense value when setting up alerts or diagnosing issues quickly.
+System monitoring scripts are essential tools in a DevOps engineer's toolkit. They provide immediate visibility into your infrastructure's health and can help identify potential issues before they become critical.
 
-Keep your systems healthy! 💻🐍
+Happy monitoring! 📊🐍

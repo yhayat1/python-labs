@@ -9,14 +9,16 @@ In this lab, you will write a script to download files from the internet. This t
 By the end of this lab, you will:
 - Use the `requests` module to download files via HTTP
 - Save files to disk using Python
-- Handle response status and file naming
+- Handle response status and error conditions
+- Add command-line arguments for better usability (bonus)
+- Implement progress indicators for larger files (bonus)
 
 ---
 
 ## 🧰 Prerequisites
 
 - Completion of LAB01 (Simple CLI Tool)
-- Python 3.8+ and `requests` installed
+- Python 3.8+ installed
 
 ---
 
@@ -24,9 +26,10 @@ By the end of this lab, you will:
 
 ```
 Automation-Scripting/LAB02-Automate-File-Downloads/
-├── downloader.py
-├── requirements.txt
-└── README.md
+├── downloader.py        # Skeleton file with TODOs for you to implement
+├── requirements.txt     # Required dependencies
+├── README.md            # This file with instructions
+└── solutions.md         # Reference solutions (only check after completing)
 ```
 
 ---
@@ -41,47 +44,44 @@ cd Automation-Scripting/LAB02-Automate-File-Downloads/
 2. Create a virtual environment and install dependencies:
 ```bash
 python -m venv .venv
-source .venv/bin/activate
-pip install requests
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-3. Optionally save dependencies:
-```bash
-pip freeze > requirements.txt
-```
+3. Open `downloader.py` and follow the TODOs to implement your file downloader
 
 ---
 
 ## ✍️ Your Task
 
-### 1. Write a download script:
-```python
-import requests
+You need to implement a file downloader that:
 
-def download_file(url, filename):
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(filename, "wb") as f:
-            f.write(response.content)
-        print(f"File saved as {filename}")
-    else:
-        print("Failed to download. Status:", response.status_code)
+1. Uses the `requests` library to download files from URLs
+2. Saves the downloaded content to a file on disk
+3. Handles potential errors gracefully:
+   - HTTP error status codes
+   - Network connection issues
+   - File system errors
+4. (Bonus) Accepts command-line arguments for URL and filename
+5. (Bonus) Shows a progress indicator for larger files
 
-# Example usage
-download_file("https://www.example.com/sample.txt", "sample.txt")
-```
+The skeleton code with TODOs is provided in `downloader.py`. Follow the TODOs to complete the implementation.
+
+### Example URLs for Testing:
+
+- Text file: `https://raw.githubusercontent.com/python/cpython/master/README.rst`
+- Small image: `https://www.python.org/static/img/python-logo.png`
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ Script downloads a file from a given URL  
-✅ File is saved locally with correct content  
-✅ HTTP status handling is implemented  
-✅ Runs without error:
-```bash
-python downloader.py
-```
+✅ Script successfully downloads files from URLs  
+✅ Downloaded files are saved correctly to disk  
+✅ HTTP status codes are checked and handled  
+✅ Error handling for network and file system issues  
+✅ (Bonus) Command-line arguments work correctly  
+✅ (Bonus) Progress indicator shows download status  
 
 ---
 
@@ -96,6 +96,6 @@ Explore [LAB03 - Process Logs and Reports](../LAB03-Process-Logs-and-Reports/) t
 ---
 
 ## 🙏 Acknowledgments
-Automation isn’t just about infrastructure — data fetching and scripting are just as essential.
+Automation isn't just about infrastructure — data fetching and scripting are just as essential.
 
 Happy downloading! 📥🐍

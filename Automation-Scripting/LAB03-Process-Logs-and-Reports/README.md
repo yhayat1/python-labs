@@ -1,6 +1,6 @@
 # LAB03 - Process Logs and Generate Reports with Python
 
-Log files contain valuable operational data. In this lab, you'll write Python code to parse a sample log file, extract meaningful information, and generate a summary report.
+Log files contain valuable operational data. In this lab, you'll write Python code to parse a sample log file, extract meaningful information, and generate a summary report - an essential skill for DevOps automation.
 
 ---
 
@@ -8,9 +8,11 @@ Log files contain valuable operational data. In this lab, you'll write Python co
 
 By the end of this lab, you will:
 - Open and read a text-based log file
-- Parse and filter log entries by keyword or pattern
-- Summarize occurrences and generate basic metrics
-- Write a report to a new file
+- Parse log entries using string operations or regular expressions
+- Analyze logs to identify patterns and extract metrics
+- Generate a formatted report summarizing your findings
+- Handle different log levels (ERROR, WARNING, INFO, DEBUG)
+- (Bonus) Identify trends and notable events in the logs
 
 ---
 
@@ -18,6 +20,7 @@ By the end of this lab, you will:
 
 - Completion of LAB02 (Automate File Downloads)
 - Python 3.8+ installed
+- Basic understanding of file I/O and string manipulation
 
 ---
 
@@ -25,9 +28,10 @@ By the end of this lab, you will:
 
 ```
 Automation-Scripting/LAB03-Process-Logs-and-Reports/
-├── logs.txt               # Sample input log file
-├── parser.py              # Main script
-└── README.md
+├── logs.txt           # Sample input log file for analysis
+├── parser.py          # Skeleton file with TODOs for you to implement
+├── README.md          # This file with instructions
+└── solutions.md       # Reference solutions (only check after completing)
 ```
 
 ---
@@ -42,45 +46,51 @@ cd Automation-Scripting/LAB03-Process-Logs-and-Reports/
 2. (Optional) Create a virtual environment:
 ```bash
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
+
+3. Open `parser.py` and follow the TODOs to implement your log parser and report generator
 
 ---
 
 ## ✍️ Your Task
 
-### 1. Read and analyze a log file:
-```python
-with open("logs.txt", "r") as file:
-    lines = file.readlines()
+You need to implement a log analysis tool that:
 
-error_count = 0
-for line in lines:
-    if "ERROR" in line:
-        error_count += 1
+1. Reads the provided `logs.txt` file
+2. Analyzes the log entries to extract:
+   - Counts of each log level (ERROR, WARNING, INFO, DEBUG)
+   - Time range of the logs (first and last timestamp)
+   - Types of errors that occurred
+   - Any notable events or patterns
+3. Generates a report file (`report.txt`) with a summary of your findings
 
-with open("report.txt", "w") as report:
-    report.write(f"Total errors found: {error_count}\n")
+The log file format is:
+```
+[YYYY-MM-DD HH:MM:SS] LEVEL: Message
 ```
 
-### 2. Extend: Count other log levels like INFO and WARNING
+The skeleton code with TODOs is provided in `parser.py`. Follow the TODOs to complete the implementation.
+
+### Expected Report Format:
+
+A sample report format is provided at the bottom of `parser.py` to guide your implementation.
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ Reads log file and parses content line-by-line  
-✅ Counts error messages or patterns  
-✅ Writes a result to `report.txt`  
-✅ Script runs cleanly:
-```bash
-python parser.py
-```
+✅ Script successfully reads and parses the log file  
+✅ Log levels are correctly counted and percentages calculated  
+✅ Time range is correctly identified from timestamps  
+✅ Error types are categorized and counted  
+✅ Notable events are identified and reported  
+✅ Report is generated with clear, well-formatted output  
 
 ---
 
 ## 🧹 Cleanup
-Remove `report.txt` if desired.
+You may delete any generated `report.txt` file after completing the lab.
 
 ---
 
@@ -90,6 +100,6 @@ Move on to [LAB04 - System Monitoring Scripts](../LAB04-System-Monitoring-Script
 ---
 
 ## 🙏 Acknowledgments
-Understanding logs is core to diagnosing system behavior and performance. Learn to let Python do the parsing for you!
+Log analysis is a critical skill for DevOps engineers. Automating this process with Python can save hours of manual work and provide valuable insights.
 
 Happy analyzing! 📊🐍

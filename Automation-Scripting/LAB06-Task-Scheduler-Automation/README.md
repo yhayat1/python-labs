@@ -1,23 +1,25 @@
 # LAB06 - Task Scheduler Automation with Python
 
-Automating recurring tasks is a core DevOps responsibility. In this lab, you'll create a Python script that can schedule and manage automated tasks without relying on external tools like cron or Windows Task Scheduler.
+Automating recurring tasks is a core DevOps responsibility. In this lab, you'll create a Python script that can schedule and manage automated tasks without relying on external tools like cron or Windows Task Scheduler - a valuable skill for cross-platform automation.
 
 ---
 
 ## 🎯 Objectives
 
 By the end of this lab, you will:
-- Create a Python-based task scheduler using `schedule` library
-- Implement different scheduling patterns (daily, hourly, intervals)
-- Run multiple tasks concurrently
-- Create logs of task execution
+- Create a Python-based task scheduler using the `schedule` library
+- Implement different scheduling patterns (intervals, daily, specific times)
+- Define reusable task functions with proper logging
+- Run multiple tasks on independent schedules
+- Handle graceful termination of long-running processes
+- (Bonus) Implement more complex tasks with dependencies
 
 ---
 
 ## 🧰 Prerequisites
 
 - Completion of LAB05 (API Integration Tool)
-- Python 3.8+ and the required packages
+- Python 3.8+ installed
 
 ---
 
@@ -25,10 +27,11 @@ By the end of this lab, you will:
 
 ```
 Automation-Scripting/LAB06-Task-Scheduler-Automation/
-├── scheduler.py          # Main scheduler script
-├── tasks.py              # Task definitions
-├── requirements.txt      # Dependencies
-└── README.md
+├── scheduler.py          # Skeleton file with TODOs for implementing the scheduler
+├── tasks.py              # Skeleton file with TODOs for implementing task functions
+├── requirements.txt      # Required dependencies
+├── README.md             # This file with instructions
+└── solutions.md          # Reference solutions (only check after completing)
 ```
 
 ---
@@ -43,100 +46,66 @@ cd Automation-Scripting/LAB06-Task-Scheduler-Automation/
 2. Create and activate a virtual environment:
 ```bash
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
 3. Install dependencies:
 ```bash
-pip install schedule
-pip freeze > requirements.txt
+pip install -r requirements.txt
 ```
+
+4. Open and explore the provided files:
+   - `tasks.py` contains skeleton code for defining your automated tasks
+   - `scheduler.py` contains skeleton code for setting up and running the scheduler
 
 ---
 
 ## ✍️ Your Task
 
-### 1. Define some example tasks in tasks.py:
-```python
-import datetime
-import time
-import random
+You need to implement a task scheduler system that:
 
-def log_event(message):
-    """Log a message with timestamp."""
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(f"[{timestamp}] {message}")
-    
-    # Optionally write to a log file
-    with open("task_log.txt", "a") as log_file:
-        log_file.write(f"[{timestamp}] {message}\n")
+1. Defines task functions in `tasks.py`:
+   - A logging function to record task execution with timestamps
+   - A system check task to monitor resources (simulated)
+   - A backup task to demonstrate a data backup process (simulated)
+   - A cleanup task to remove old files (simulated)
+   - (Bonus) Additional task of your choice
 
-def check_system():
-    """Simulated system check task."""
-    log_event("Performing system check...")
-    # Simulate a task that takes some time
-    time.sleep(2)
-    status = random.choice(["All systems normal", "Warning: High load detected"])
-    log_event(f"System check result: {status}")
+2. Creates a scheduler in `scheduler.py` that:
+   - Sets up multiple tasks with different schedules
+   - Runs tasks at specified intervals
+   - Handles clean shutdown when interrupted
+   - Logs activity for monitoring purposes
 
-def backup_data():
-    """Simulated backup task."""
-    log_event("Starting backup process...")
-    # Simulate a time-consuming task
-    time.sleep(5)
-    log_event("Backup completed successfully")
-```
+The skeleton code with TODOs is provided in both Python files. Follow the TODOs to complete the implementation.
 
-### 2. Create the scheduler in scheduler.py:
-```python
-import time
-import schedule
-from tasks import check_system, backup_data, log_event
+### Example Scheduling Patterns:
 
-def setup_schedule():
-    """Set up the task schedule."""
-    log_event("Setting up task scheduler...")
-    
-    # Run the system check every hour
-    schedule.every(1).hour.do(check_system)
-    
-    # Run the backup daily at 2 AM
-    schedule.every().day.at("02:00").do(backup_data)
-    
-    # For testing, you might want more frequent runs
-    schedule.every(20).seconds.do(lambda: log_event("Heartbeat check"))
-    
-    log_event("Scheduler initialized successfully")
+The `schedule` library provides various scheduling options:
+- `schedule.every(10).minutes.do(some_task)` - Run every 10 minutes
+- `schedule.every().hour.do(some_task)` - Run every hour
+- `schedule.every().day.at("10:30").do(some_task)` - Run every day at 10:30
+- `schedule.every().monday.do(some_task)` - Run every Monday
 
-if __name__ == "__main__":
-    setup_schedule()
-    
-    log_event("Task scheduler started")
-    
-    try:
-        while True:
-            schedule.run_pending()
-            time.sleep(1)
-    except KeyboardInterrupt:
-        log_event("Task scheduler stopped by user")
-```
+For testing purposes, you can use shorter intervals like seconds:
+- `schedule.every(5).seconds.do(some_task)` - Run every 5 seconds
 
 ---
 
 ## 🧪 Validation Checklist
 
-✅ Tasks are defined and execute properly  
-✅ Scheduler runs and triggers tasks at specified times  
+✅ Task functions are implemented with proper logging  
+✅ Scheduler correctly sets up tasks with different schedules  
+✅ Main loop runs and executes tasks at the right times  
+✅ Script handles keyboard interrupts gracefully  
 ✅ Task execution is properly logged  
-✅ Script runs cleanly:
-```bash
-python scheduler.py
-```
+✅ (Bonus) At least one complex/realistic task is implemented  
+✅ (Bonus) Script maintains a log file of all activities  
 
 ---
 
 ## 🧹 Cleanup
-Press Ctrl+C to stop the scheduler and remove the task_log.txt file if desired.
+Press Ctrl+C to stop the scheduler when done testing. You may also want to remove any log files or data created during testing.
 
 ---
 
@@ -146,6 +115,6 @@ Ready to explore cloud automation? Head to the Cloud Automation section to begin
 ---
 
 ## 🙏 Acknowledgments
-Task automation is the foundation of DevOps. Once you master scheduled automation, you can build increasingly sophisticated workflows and pipelines.
+Task automation and scheduling are foundational DevOps skills. While many environments provide built-in schedulers like cron, having a Python-based solution gives you flexibility, portability, and the ability to implement complex logic in your scheduled tasks.
 
 Happy scheduling! ⏰🐍 
