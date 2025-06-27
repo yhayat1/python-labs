@@ -124,6 +124,7 @@ def main():
     print("================================\n")
     
     try:
+        pass
         # TODO: Load configuration
 
         # TODO: Create API client
