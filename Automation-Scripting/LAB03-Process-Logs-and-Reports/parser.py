@@ -46,11 +46,7 @@ if __name__ == "__main__":
     # 1. Read the log file
     # 2. Analyze the logs
     # 3. Generate the report
-    
-    # Example implementation (uncomment and modify after completing the functions):
-    # logs = read_log_file("logs.txt")
-    # analysis_results = analyze_logs(logs)
-    # generate_report(analysis_results)
+
     
     print("Analysis complete. Check report.txt for details.")
 

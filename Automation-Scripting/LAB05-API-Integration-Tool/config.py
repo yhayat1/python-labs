@@ -21,7 +21,3 @@ API_TIMEOUT = 10
 # API_PASSWORD = "your_password"
 
 # TODO: (Optional) Add additional configuration parameters
-# Examples:
-# API_VERSION = "v1"
-# API_RATE_LIMIT = 100  # requests per minute
-# API_MAX_RETRIES = 3 

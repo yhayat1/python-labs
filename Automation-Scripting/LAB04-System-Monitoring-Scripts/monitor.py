@@ -23,7 +23,6 @@ Usage:
 
 # TODO: Define a function to display the metrics in a readable format
 # Consider using formatting to make the output clear and easy to read
-# Example: print(f"CPU Usage: {cpu_percent:>5.1f}%")
 
 
 # TODO: Implement a continuous monitoring loop (optional)
@@ -41,19 +40,7 @@ if __name__ == "__main__":
     # Options:
     # 1. Simple single measurement of system stats
     # 2. Continuous monitoring with a loop and interval
-    
-    # Example for a single measurement:
-    # collect_metrics()
-    # display_metrics(metrics)
-    
-    # Example for continuous monitoring:
-    # try:
-    #     while True:
-    #         metrics = collect_metrics()
-    #         display_metrics(metrics)
-    #         time.sleep(interval)
-    # except KeyboardInterrupt:
-    #     print("\nMonitoring stopped.")
+
 
 """
 Sample output:

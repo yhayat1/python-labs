@@ -138,11 +138,7 @@ def list_bucket_files(bucket_name):
         # TODO: Get the list of objects in the bucket using list_objects_v2
         
         # TODO: Extract and print the Key (filename) from each object
-        # Example:
-        # print(f"\nFiles in bucket {bucket_name}:")
-        # for file in files:
-        #     print(f"- {file}")
-        
+
         # Return a list of filenames or an empty list if none found
         return []
     except ClientError as e:
@@ -198,8 +194,7 @@ def main():
     args = None  # Replace with parser.parse_args()
     
     # TODO: Generate a unique bucket name if none is provided
-    # Example: bucket_name = args.bucket or f"{DEFAULT_BUCKET_PREFIX}{uuid.uuid4().hex[:8]}"
-    
+
     # TODO: Implement the main workflow:
     # 1. Create bucket if it doesn't exist
     # 2. Upload file if --file is provided

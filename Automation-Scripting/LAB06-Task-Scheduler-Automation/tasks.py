@@ -53,10 +53,3 @@ if __name__ == "__main__":
     print("======================")
     print("This module contains tasks to be scheduled.")
     print("It's not meant to be run directly, but you can test tasks here.")
-    
-    # Example for testing:
-    # print("\nTesting system_check task:")
-    # system_check()
-    
-    # print("\nTesting backup_data task:")
-    # backup_data() 

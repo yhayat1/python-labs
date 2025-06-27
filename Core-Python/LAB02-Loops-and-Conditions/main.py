@@ -20,8 +20,6 @@ Instructions:
 # TODO: 2. Loop Over a List
 # Create a list called 'skills' with at least 3 technology skills
 # Use a for loop to iterate over the list and print each skill
-# Example output: "Learning: Python"
-
 
 
 # TODO: 3. Use a While Loop

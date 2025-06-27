@@ -235,17 +235,6 @@ def get_topic_attributes(sns_client, topic_arn):
         # TODO: Implement the get_topic_attributes API call
         # Print relevant attributes like DisplayName, SubscriptionsConfirmed, etc.
         
-        # Example (replace with your implementation):
-        # response = sns_client.get_topic_attributes(TopicArn=topic_arn)
-        # attributes = response['Attributes']
-        # print(f"\n--- Topic Attributes ---")
-        # print(f"Topic ARN: {attributes['TopicArn']}")
-        # print(f"Owner: {attributes['Owner']}")
-        # print(f"Display Name: {attributes.get('DisplayName', 'Not set')}")
-        # print(f"Subscriptions Confirmed: {attributes['SubscriptionsConfirmed']}")
-        # print(f"Subscriptions Pending: {attributes['SubscriptionsPending']}")
-        # return attributes
-        
         print(f"TODO: Implement get_topic_attributes function to get topic attributes")
         return {}
     except ClientError as e:
@@ -266,11 +255,6 @@ def unsubscribe(sns_client, subscription_arn):
     try:
         # TODO: Implement the unsubscribe API call
         # Return True if successful
-        
-        # Example (replace with your implementation):
-        # sns_client.unsubscribe(SubscriptionArn=subscription_arn)
-        # print(f"Successfully unsubscribed {subscription_arn}")
-        # return True
         
         print(f"TODO: Implement unsubscribe function to unsubscribe from a topic")
         return False

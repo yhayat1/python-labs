@@ -7,10 +7,6 @@ using Python, which is essential for DevOps automation.
 """
 
 # TODO: Import required libraries
-# import requests
-# import json
-# import os
-# from urllib.parse import urljoin
 
 
 def load_config(config_file="config.json"):
@@ -129,45 +125,20 @@ def main():
     
     try:
         # TODO: Load configuration
-        config = load_config()
-        
+
         # TODO: Create API client
-        client = create_api_client(
-            base_url=config.get("api_base_url", "https://jsonplaceholder.typicode.com"),
-            headers=config.get("headers", {}),
-        )
         
         # TODO: Perform GET request to retrieve data
-        # Example: Get users from the API
-        print("\n1. Getting users from API:")
-        print("-------------------------")
-        users = get_data(client, "/users")
         # Display some user information
         
         # TODO: Perform GET request with parameters
-        # Example: Get posts for a specific user
-        print("\n2. Getting posts for a specific user:")
-        print("-----------------------------------")
-        user_id = 1  # Example user ID
-        posts = get_data(client, "/posts", params={"userId": user_id})
         # Display some post information
         
         # TODO: Perform POST request to create data
-        # Example: Create a new post
-        print("\n3. Creating a new post:")
-        print("---------------------")
-        new_post = {
-            "title": "New Post",
-            "body": "This is a new post created via the API",
-            "userId": user_id
-        }
-        created_post = post_data(client, "/posts", new_post)
         # Display the created post information
         
         # TODO: (Bonus) Implement other HTTP methods (PUT, DELETE)
-        
-        print("\nAPI interaction completed successfully!")
-        
+
     except Exception as e:
         print(f"\nError: {str(e)}")
 

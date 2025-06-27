@@ -18,7 +18,6 @@ Instructions:
 
 # TODO: Call the add() function
 # Call the add() function with two numbers and print the result
-# Example: print("Sum:", add(5, 3))
 
 
 # TODO: Bonus - Call the max_of_three() function

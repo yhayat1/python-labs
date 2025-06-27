@@ -69,29 +69,7 @@ if __name__ == "__main__":
     # 2. Read CloudFormation template
     # 3. Create stack
     # 4. Wait for and report status
-    
-    # Example implementation
-    # try:
-    #     # Initialize CloudFormation client
-    #     print(f"\nConnecting to AWS CloudFormation in region {region}...")
-    #     cf_client = boto3.client('cloudformation', region_name=region)
-    #     
-    #     # Read template
-    #     print(f"\nReading CloudFormation template from {template_file}...")
-    #     template_body = read_template(template_file)
-    #     
-    #     # Create stack
-    #     print(f"\nDeploying CloudFormation stack '{stack_name}'...")
-    #     stack_id = create_stack(cf_client, stack_name, template_body)
-    #     print(f"Stack ID: {stack_id}")
-    #     
-    #     # Wait for stack completion
-    #     print(f"\nWaiting for stack creation to complete...")
-    #     wait_for_stack_completion(cf_client, stack_name)
-    #     
-    # except Exception as e:
-    #     print(f"\nError: {str(e)}")
-    
+
     print("\n⚠️  IMPORTANT: Remember to delete the stack when you're done to avoid charges!")
     print("To delete the stack, run:")
     print("python launch_stack.py --delete")

@@ -9,8 +9,6 @@ This module contains utility functions that will be imported and used in main.py
 # This function should:
 # - Accept a parameter called 'name'
 # - Return a greeting string like "Hello, {name}!"
-# Example: def greet(name):
-#              return f"Hello, {name}!"
 
 
 # TODO: Define a function called add
@@ -37,6 +35,3 @@ if __name__ == "__main__":
     print("Import these functions in main.py to use them!")
     
     # You can also add test calls here to verify your functions work correctly
-    # Examples:
-    # print(greet("Test User"))
-    # print(add(10, 20)) 

@@ -35,17 +35,7 @@ if __name__ == "__main__":
     # - Run pending tasks
     # - Sleep for a short interval
     # - Handle clean termination (Ctrl+C)
-    
-    # Example:
-    # try:
-    #     setup_schedule()
-    #     print("Scheduler started. Press Ctrl+C to exit.")
-    #     
-    #     while True:
-    #         schedule.run_pending()
-    #         time.sleep(1)
-    # except KeyboardInterrupt:
-    #     print("\nScheduler stopped by user.")
+
     
     print("\nRemember to install dependencies:")
     print("pip install schedule") 

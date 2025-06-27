@@ -41,18 +41,8 @@ if __name__ == "__main__":
     print("===================")
     
     # TODO: Create an instance of your API client and use it
-    # Example:
-    # client = APIClient()
     
     # TODO: Call methods and display results
-    # Example:
-    # try:
-    #     users = client.get_users()
-    #     print(f"Found {len(users)} users:")
-    #     for user in users[:5]:  # Show first 5 users
-    #         print(f"  - {user['name']} ({user['email']})")
-    # except Exception as e:
-    #     print(f"Error: {e}")
     
     # Add more API interactions as needed
     

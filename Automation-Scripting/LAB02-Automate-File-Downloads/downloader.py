@@ -30,8 +30,6 @@ Usage:
 
 # TODO: BONUS - Add command-line arguments
 # Use argparse to accept a URL and filename from the command line
-# Example: python downloader.py --url https://example.com/file.txt --output file.txt
-
 
 # TODO: BONUS - Add a progress indicator
 # For larger files, it's nice to show download progress
@@ -46,9 +44,6 @@ if __name__ == "__main__":
     
     print("File Download Script")
     print("====================")
-    
-    # Example usage (uncomment and modify after implementing the function):
-    # download_file("https://www.example.com/sample.txt", "sample.txt")
-    
+
     print("\nRemember to install the required dependencies:")
     print("pip install requests") 

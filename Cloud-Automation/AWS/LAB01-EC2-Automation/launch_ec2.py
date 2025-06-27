@@ -44,12 +44,7 @@ def launch_instance():
         # - SecurityGroupIds
         # - MinCount/MaxCount
         # - TagSpecifications
-        
-        # Example structure (you need to complete it):
-        # response = ec2_client.run_instances(
-        #     ImageId=AMI_ID,
-        #     ...
-        # )
+
         
         # TODO: Extract and return the instance ID from the response
         instance_id = None
@@ -77,16 +72,7 @@ def wait_for_instance(instance_id):
         # Use describe_instances to get the current state
         # Wait until the state is 'running'
         # Return the instance details once running
-        
-        # Example structure (you need to complete it):
-        # while True:
-        #     response = ec2_client.describe_instances(InstanceIds=[instance_id])
-        #     instance = response['Reservations'][0]['Instances'][0]
-        #     instance_state = instance['State']['Name']
-        #     
-        #     if instance_state == 'running':
-        #         ...
-            
+
         return None  # TODO: Return the instance details
             
     except ClientError as e:
@@ -109,11 +95,7 @@ def display_instance_details(instance):
     # - Public IP
     # - Private IP
     # - Tags
-    
-    # Example (you need to complete it):
-    # print("\nInstance Details:")
-    # print(f"  Instance ID: {instance['InstanceId']}")
-    # ...
+
     pass
 
 def terminate_instance(instance_id):
@@ -127,11 +109,7 @@ def terminate_instance(instance_id):
         # TODO: Implement instance termination
         # Use terminate_instances to terminate the instance
         # Wait for the instance to be terminated
-        
-        # Example structure (you need to complete it):
-        # ec2_client.terminate_instances(InstanceIds=[instance_id])
-        # print(f"\nTerminating instance: {instance_id}")
-        
+
         return False  # TODO: Return True if terminated successfully
             
     except ClientError as e:

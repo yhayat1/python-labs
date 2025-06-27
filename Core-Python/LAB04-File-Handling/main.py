@@ -33,7 +33,6 @@ Instructions:
 # TODO: 5. Bonus: Read file line by line
 # Open 'input.txt' and read it line by line
 # Print each line with its line number
-# Example output: "Line 1: This is the first line."
 
 
 # TODO: 6. Extra Challenge: Work with CSV data

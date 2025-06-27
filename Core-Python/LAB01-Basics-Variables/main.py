@@ -10,8 +10,6 @@ Instructions:
 
 # TODO: 1. Create variables of different types
 # Create a string variable called 'name'
-# Example: name = "Your Name"
-
 
 # Create an integer variable called 'age'
 
@@ -30,8 +28,6 @@ Instructions:
 
 # TODO: 2. Print the variables using print()
 # Print each variable with a descriptive label
-# Example: print("Name:", name)
-
 
 # TODO: 3. Try basic operations
 # Print your age in 5 years
