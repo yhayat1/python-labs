@@ -14,7 +14,7 @@ def greet(name):
     #name = input("Enter your name: ")
     print(f"Hello, {name}!")
 
-greet("Yossi")
+#greet("Yossi")
 
 # TODO: Define a function called add
 # This function should:
@@ -24,8 +24,8 @@ greet("Yossi")
 def add(x, y):
     return x + y
 
-result = add(5, 3)
-print(result)
+#result = add(5, 3)
+#print(result)
 
 # TODO: Bonus - Define a function called max_of_three
 # This function should:
@@ -36,8 +36,8 @@ print(result)
 def max_of_three(a, b, c):
     return max(a, b, c)
 
-result = max_of_three(1, 9, 5)
-print(result)
+#result = max_of_three(1, 9, 5)
+#print(result)
 
 # TODO: Extra Challenge - Create your own function
 # Define a new function that does something useful (e.g., calculate area, multiply numbers, etc.)
@@ -48,8 +48,8 @@ print(result)
 def multiple(a, b, c):
     return (a * b * c)
 
-result = multiple(3, 3, 3)
-print(result)
+#result = multiple(3, 3, 3)
+#print(result)
 
 if __name__ == "__main__":
     # This code only runs when helper.py is executed directly (not when imported)
